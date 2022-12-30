@@ -1,26 +1,52 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import "./App.css";
+import { ThemeProvider, createTheme } from "@mui/material/styles";
+import { CssBaseline } from "@mui/material";
+import { MemoryRouter as Router, Routes, Route } from "react-router-dom";
+import Home from "./pages/Home";
+import Editor from "./pages/Editor";
 
-function App() {
+const themeLight = createTheme({
+  palette: {
+    background: {
+      default:  "#f5f9fd",
+      paper: "#ffffff",
+    },
+    primary: {
+      main: "#428dfd",
+    },
+  },
+  typography: {
+    button: {
+      textTransform: 'none'
+    },
+    fontFamily: 'Montserrat'
+  },
+});
+
+const themeDark = createTheme({
+  palette: {
+    mode: 'dark',
+    text: {
+      primary: "#ffffff"
+    }
+  },
+  typography: {
+    button: {
+      textTransform: 'none'
+    }
+  }
+});
+
+export default function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <ThemeProvider theme={themeLight}>
+      <CssBaseline />
+      <Router>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/editor" element={<Editor />} />
+        </Routes>
+      </Router>
+    </ThemeProvider>
   );
 }
-
-export default App;

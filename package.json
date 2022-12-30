@@ -1,8 +1,14 @@
 {
   "name": "pdf-editor-electron",
   "version": "0.1.0",
+  "author": "Ryan Lo",
+  "description": "pdf-editor made with electron and react",
   "private": true,
   "dependencies": {
+    "@emotion/react": "^11.10.5",
+    "@emotion/styled": "^11.10.5",
+    "@mui/icons-material": "^5.11.0",
+    "@mui/material": "^5.11.2",
     "@testing-library/jest-dom": "^5.14.1",
     "@testing-library/react": "^13.0.0",
     "@testing-library/user-event": "^13.2.1",
@@ -10,17 +16,31 @@
     "@types/node": "^16.7.13",
     "@types/react": "^18.0.0",
     "@types/react-dom": "^18.0.0",
+    "electron-is-dev": "^2.0.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-pdf": "^6.2.1",
+    "react-router-dom": "^6.6.1",
     "react-scripts": "5.0.1",
     "typescript": "^4.4.2",
     "web-vitals": "^2.1.0"
   },
+  "build": {
+    "publish": {
+      "provider": "github"
+    }
+  },
+  "main": "public/electron.js",
+  "homepage": "./",
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "react-start": "react-scripts start",
+    "react-build": "react-scripts build",
+    "react-test": "react-scripts test --env=jsdom",
+    "react-eject": "react-scripts eject",
+    "electron-build": "electron-builder",
+    "release": "yarn react-build && electron-builder --publish=always",
+    "build": "yarn react-build && yarn electron-build",
+    "start": "concurrently \"cross-env BROWSER=none yarn react-start\" \"wait-on http://localhost:3000 && electron .\""
   },
   "eslintConfig": {
     "extends": [
@@ -39,5 +59,14 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@types/react-pdf": "^6.2.0",
+    "@types/react-router-dom": "^5.3.3",
+    "concurrently": "^7.6.0",
+    "cross-env": "^7.0.3",
+    "electron": "^22.0.0",
+    "electron-builder": "^23.6.0",
+    "wait-on": "^7.0.1"
   }
 }
