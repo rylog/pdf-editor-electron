@@ -1,0 +1,12 @@
+.muuri-item-dragging,
+.muuri-item-releasing {
+  z-index: 9999;
+}
+
+.tile {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 248px ;
+	width: 200px;
+}
