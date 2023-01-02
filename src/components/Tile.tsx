@@ -1,3 +1,4 @@
+import "./Tile.css"
 import { useEffect, useRef, useState } from "react";
 import { PDFPageProxy } from "pdfjs-dist/types/src/display/api";
 
@@ -23,8 +24,9 @@ const Tile = (props: TileProps) => {
     let viewport = page.getViewport({ scale: 1 });
     let scale = 1;
     if (viewport.height >= viewport.width) {
-      let desiredWidth = 180;
-      scale = desiredWidth / viewport.width;
+      let desiredHeight = 232;
+      let desireWidth = 180;
+      scale = Math.min((desiredHeight / viewport.height), (desireWidth / viewport.width));
     }
     else {
       let desiredHeight = 180;

@@ -1,7 +1,7 @@
 import { ChangeEvent, useEffect, useState } from 'react';
 import 'react-pdf/dist/esm/Page/AnnotationLayer.css';
 import 'react-pdf/dist/esm/Page/TextLayer.css';
-import Gallery from './Gallery';
+import Gallery from '../components/Gallery';
 import { useLocation } from 'react-router-dom';
 
 import PdfLoader from "../services/PdfLoader"
