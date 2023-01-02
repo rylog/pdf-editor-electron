@@ -1,53 +1,65 @@
-import React, { ChangeEvent, useState } from 'react';
-
+import { ChangeEvent, useEffect, useState } from 'react';
 import 'react-pdf/dist/esm/Page/AnnotationLayer.css';
 import 'react-pdf/dist/esm/Page/TextLayer.css';
-import { Document, Page, pdfjs } from "react-pdf";
+import Gallery from './Gallery';
 import { useLocation } from 'react-router-dom';
-pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 
-const options = {
-  cMapUrl: 'cmaps/',
-  cMapPacked: true,
-  standardFontDataUrl: 'standard_fonts/',
-};
+import PdfLoader from "../services/PdfLoader"
+import PageInfo from '../types/PageInfo';
 
 const Editor = () => {
-	const {state} = useLocation();
-	const {files} = state;
-	console.log(files)
-  const [file, setFile] = useState<File>(files[0]);
-  const [numPages, setNumPages] = useState<number>(1);
+  const { state } = useLocation();
+  const { files } = state;
+  const [isLoading, setIsLoading] = useState(true);
+  
+  var fileId = 0;
+  var id =0;
 
-  function onFileChange(event :ChangeEvent<HTMLInputElement>) {
-		if(!event.target.files)
-			return;
-    setFile(event.target.files[0]);
-  }
+  const loadFiles = async (files: FileList) => {
+    return new Promise<PageInfo[]>(async resolve => {
+      const tiles: PageInfo[] = [];
+      const readersResults = await PdfLoader.readFilesAsArrayBuffer(files);
+      for (let arrayBuffer in readersResults) {
+        const pages = await PdfLoader.loadDocumentPages(readersResults[arrayBuffer]);
+        fileId++;
+        // eslint-disable-next-line no-loop-func
+        pages.forEach(page => {
+          tiles.push({ id:id++, fileId: fileId, pageProxy: page })
+        })
+      }
+      resolve(tiles);
+    })
+  };
 
-  function onDocumentLoadSuccess() {
-    setNumPages(1);
+  const [pages, setPages] = useState<PageInfo[]>([]);
+
+  useEffect(() => {
+
+    loadFiles(files).then(loadedFiles => {
+      setPages(loadedFiles);
+      setIsLoading(false);
+    })
+
+  }, [])
+  // const [file, setFile] = useState<File>(files[0]);
+  // const [numPages, setNumPages] = useState<number>(1);
+
+
+
+  useEffect(() => {
+    loadFiles(files);
+  }, []);
+
+  const onFileChange = (event: ChangeEvent<HTMLInputElement>) => {
+    if (!event.target.files)
+      return;
+
+    //setFile(event.target.files[0]);
   }
 
   return (
-    <div className="Example">
-      <header>
-        <h1>react-pdf sample page</h1>
-      </header>
-      <div className="Example__container">
-        <div className="Example__container__load">
-          <label htmlFor="file">Load from file:</label>{' '}
-          <input onChange={onFileChange} type="file" />
-        </div>
-        <div className="Example__container__document">
-          <Document file={file} onLoadSuccess={onDocumentLoadSuccess} options={options}>
-            {Array.from(new Array(numPages), (el, index) => (
-              <Page key={`page_${index + 1}`} pageNumber={index + 1} />
-            ))}
-          </Document>
-        </div>
-      </div>
-    </div>
+    isLoading ? <div>Loading</div> : <Gallery pages={pages} />
+
   );
 }
 
