@@ -5,7 +5,7 @@ import { MemoryRouter as Router, Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
 import Editor from "./pages/Editor";
 import { pdfjs } from "react-pdf";
-pdfjs.GlobalWorkerOptions.workerSrc = `./js/pdf.worker.min.js`;
+pdfjs.GlobalWorkerOptions.workerSrc = `./pdfjs-dist/build/pdf.worker.min.js`;
 
 const themeLight = createTheme({
   palette: {

@@ -1,15 +1,14 @@
 import { pdfjs,} from "react-pdf";
 import {
-  GetDocumentParameters,
   PDFDocumentProxy,
   PDFPageProxy, 
 } from "pdfjs-dist/types/src/display/api";
 
-const loadDocumentPages = (arrayBuffer: GetDocumentParameters) => {
+const loadDocumentPages = (arrayBuffer: Uint8Array) => {
   return new Promise<PDFPageProxy[]>((resolve, reject) => {
     try {
       pdfjs
-        .getDocument(arrayBuffer)
+        .getDocument({data: arrayBuffer, cMapUrl: "../../pdfjs-dist/cmaps/",})
         .promise.then((pdfDocument: PDFDocumentProxy) => {
           //get pages from the document
           const getPageTasks:Promise<PDFPageProxy>[] = [];
