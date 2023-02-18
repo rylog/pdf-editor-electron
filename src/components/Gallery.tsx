@@ -1,5 +1,5 @@
 import "./Gallery.css"
-import Tile from "./Tile"
+import Tile from "../components/Tile"
 import { MuuriComponent } from "react-muuri-official";
 import { useState } from "react";
 import PageInfo from "../types/PageInfo";
@@ -11,17 +11,14 @@ interface GalleryProps {
 
 
 const Gallery = (props: GalleryProps) => {
-
-	const [pages, setPages] = useState<PageInfo[]>(props.pages)
-
-
+	
 	return (
 			<MuuriComponent
 				dragEnabled
 				layoutDuration={300}
 				layoutEasing={"ease-out"}
 			>
-				{pages.map((page) =>
+				{props.pages.map((page) =>
 					<Tile key = {page.id} originalIndex = {page.id} page = {page.pageProxy} />
 				)}
 			</MuuriComponent>
