@@ -8,25 +8,23 @@ import { pdfjs } from "react-pdf";
 import { TypographyOptions } from "@mui/material/styles/createTypography";
 pdfjs.GlobalWorkerOptions.workerSrc = `./pdfjs-dist/build/pdf.worker.min.js`;
 
-const typographyOptions: TypographyOptions =
-{
-  button: {
-    textTransform: 'none'
-  },
-  fontFamily: 'Montserrat'
-}
-
 const componentOptions: Components = {
   MuiButton: {
     variants: [
       {
         props: { size: "medium" },
-        style: { fontSize: 16, padding: "6px 24px" }
-      }
-    ]
-  }
-}
+        style: { fontSize: 16, padding: "6px 24px" },
+      },
+    ],
+  },
+};
 
+const typographyOptions: TypographyOptions = {
+  button: {
+    textTransform: "none",
+  },
+  fontFamily: "Montserrat",
+};
 
 const themeLight = createTheme({
   components: componentOptions,
@@ -45,12 +43,12 @@ const themeLight = createTheme({
 const themeDark = createTheme({
   components: componentOptions,
   palette: {
-    mode: 'dark',
+    mode: "dark",
     text: {
-      primary: "#ffffff"
-    }
+      primary: "#ffffff",
+    },
   },
-  typography: typographyOptions
+  typography: typographyOptions,
 });
 
 export default function App() {
