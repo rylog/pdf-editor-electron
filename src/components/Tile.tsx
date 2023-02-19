@@ -12,8 +12,7 @@ const Tile = (props: TileProps) => {
   const [pageToRender] = useState<PDFPageProxy>(props.page);
 
   useEffect(() => {
-    if (pageToRender)
-      renderPageOnCanvas(pageToRender)
+    renderPageOnCanvas(pageToRender)
   }, [pageToRender])
 
   const renderPageOnCanvas = (page: PDFPageProxy) => {
@@ -48,9 +47,11 @@ const Tile = (props: TileProps) => {
     page.render(renderCtx);
   }
   return (
+
     <div className="tile">
       <canvas ref={canvasRef}></canvas>
-    </div>)
+    </div>
+  )
 }
 
 export default Tile;

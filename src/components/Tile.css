@@ -1,27 +1,26 @@
-
 .tile {
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	height: 248px;
-	width: 200px;
-  border-radius: 5px;
-	box-shadow: 0 2px 1px -1px #0003, 0 1px 1px #00000024, 0 1px 3px #0000001f;
-	margin: 4px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 248px;
+  width: 200px;
+  border-radius: 4px;
+  box-shadow: 0 2px 1px -1px #0003, 0 1px 1px #00000024, 0 1px 3px #0000001f;
+  margin: 4px;
+  transition: box-shadow 0.2s;
 }
 
 .tile:hover {
   box-shadow: 0 0 3px 1px rgba(0, 0, 0, 0.3), 0 0 0 4px #ff78a0,
     0 0 30px 5px rgba(0, 0, 0, 0.5);
-	cursor: move;
 }
 
-.tile:hover.muuri-item-dragging{
-	z-index: 5;
-	box-shadow: none;
+.muuri-item-dragging {
+  z-index: 3 !important;
+  box-shadow: none;
 }
 
-.tile:hover.muuri-item-releasing{
-	z-index: 5;
-	box-shadow: none;
+.muuri-item-releasing {
+  z-index: 3 !important;
+  box-shadow: none;
 }
