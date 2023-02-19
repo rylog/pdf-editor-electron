@@ -15,8 +15,6 @@ const Editor = () => {
   var fileId = 0;
   var id =0;
 
-
-
   const [pages, setPages] = useState<PageInfo[]>([]);
 
   useEffect(() => {
@@ -51,7 +49,7 @@ const Editor = () => {
   }
 
   return (
-    isLoading ? <div>Loading</div> : <Gallery pages={pages} />
+    isLoading ? <>Loading</> : <Gallery pages={pages} />
 
   );
 }

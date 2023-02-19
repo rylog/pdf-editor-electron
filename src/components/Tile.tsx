@@ -1,4 +1,4 @@
-import "./Tile.css"
+import classes from "./Tile.module.css"
 import { useEffect, useRef, useState } from "react";
 import { PDFPageProxy } from "pdfjs-dist/types/src/display/api";
 
@@ -48,7 +48,7 @@ const Tile = (props: TileProps) => {
   }
   return (
 
-    <div className="tile">
+    <div className={classes.tile}>
       <canvas ref={canvasRef}></canvas>
     </div>
   )

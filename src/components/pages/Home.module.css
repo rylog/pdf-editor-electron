@@ -18,7 +18,7 @@
   transform: scale(1.8);
 }
 
-#main {
+.main {
   display: flex;
   height: 100%;
   box-sizing: border-box;
@@ -29,7 +29,7 @@
   margin-right: auto;
 }
 
-#file-upload {
+.fileUpload {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -42,12 +42,7 @@
   padding: 12px;
 }
 
-#file-input{
+.fileInput{
   display: none;
 }
 
-#browse {
-  width: 164px;
-  margin-top: 16px;
-  font-size: 16px;
-}

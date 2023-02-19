@@ -1,4 +1,4 @@
-import "./Gallery.css"
+import classes from "./Gallery.module.css"
 import Tile from "../components/Tile"
 import { AutoScroller, MuuriComponent } from "react-muuri-official";
 import { useRef, useState } from "react";
