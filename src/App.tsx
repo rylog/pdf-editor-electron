@@ -2,8 +2,8 @@ import "./App.css";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import { CssBaseline } from "@mui/material";
 import { MemoryRouter as Router, Routes, Route } from "react-router-dom";
-import Home from "./pages/Home";
-import Editor from "./pages/Editor";
+import Home from "./components/pages/Home";
+import Editor from "./components/pages/Editor";
 import { pdfjs } from "react-pdf";
 pdfjs.GlobalWorkerOptions.workerSrc = `./pdfjs-dist/build/pdf.worker.min.js`;
 
