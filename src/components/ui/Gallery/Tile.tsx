@@ -1,5 +1,5 @@
 import classes from "./Tile.module.css"
-import { ReactNode, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { PDFPageProxy } from "pdfjs-dist/types/src/display/api";
 
 interface TileProps {

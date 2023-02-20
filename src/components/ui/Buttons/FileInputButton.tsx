@@ -25,10 +25,10 @@ const FileInputButton = (props: FileInputButtonProps & ButtonProps) => {
         type="file"
         ref={hiddenFileInput}
         multiple
-        onChange={(event) => props.onFileChange(event)}
+        onChange={(event) => onFileChange(event)}
       />
       <Button {...buttonProps} onClick = {browseFiles}>
-        {props.children}
+        {children}
       </Button>
     </>
   )

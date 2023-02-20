@@ -1,0 +1,9 @@
+.Editor{
+	display: flex;
+  flex-direction: column;
+  max-width: 1040px;
+  height: 100%;
+  margin: auto;
+  padding: 8px 24px 24px 24px;
+  box-sizing: border-box;
+}

@@ -3,7 +3,7 @@ import Folder from "@mui/icons-material/Folder";
 import { ChangeEvent, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button, Paper } from "@mui/material";
-import FileInputButton from "../ui/FileInputButton";
+import FileInputButton from "../ui/Buttons/FileInputButton";
 
 const Home = () => {
   const navigate = useNavigate();
