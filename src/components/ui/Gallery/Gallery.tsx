@@ -1,3 +1,4 @@
+import classes from "./Gallery.module.css";
 import Tile from "../Gallery/Tile";
 import { AutoScroller, MuuriComponent } from "react-muuri-official";
 import { useRef } from "react";
@@ -5,11 +6,13 @@ import PageInfo from "../../../types/PageInfo";
 
 interface GalleryProps {
   pages: PageInfo[];
+  width: string;
 }
 
 const Gallery = (props: GalleryProps) => {
   const scrollElemRef = useRef(null);
   return (
+    <div className={classes.Gallery} style={{ width: props.width }} ref={scrollElemRef}>
       <MuuriComponent
         dragEnabled
         layoutDuration={300}
@@ -26,9 +29,10 @@ const Gallery = (props: GalleryProps) => {
         }}
       >
         {props.pages.map((page) => (
-            <Tile key={page.id} originalIndex={page.id} page={page.pageProxy}/>
+          <Tile key={page.id} originalIndex={page.id} page={page.pageProxy} />
         ))}
       </MuuriComponent>
+    </div>
   );
 };
 
