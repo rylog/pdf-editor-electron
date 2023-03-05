@@ -12,7 +12,7 @@
 
 .tile:hover {
   box-shadow: 0 0 3px 1px rgba(0, 0, 0, 0.3), 0 0 0 4px #ff78a0,
-    0 0 30px 5px rgba(0, 0, 0, 0.5);
+    0 0 20px 4px rgba(0, 0, 0, 0.5);
   cursor: pointer;
 }
 

@@ -1,8 +1,8 @@
 import classes from "./Home.module.css";
 import Folder from "@mui/icons-material/Folder";
-import { ChangeEvent, useRef } from "react";
+import { ChangeEvent } from "react";
 import { useNavigate } from "react-router-dom";
-import { Button, Paper } from "@mui/material";
+import { Paper } from "@mui/material";
 import FileInputButton from "../ui/Buttons/FileInputButton";
 
 const Home = () => {

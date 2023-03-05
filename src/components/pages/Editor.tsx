@@ -29,7 +29,7 @@ const Editor = () => {
           <FileInputButton onFileChange={(event) => addFiles(event)}>
             Test
           </FileInputButton>
-          <Gallery width="1078px" pages={data} />
+          <Gallery pages={data} />
         </div>
       )}
     </>

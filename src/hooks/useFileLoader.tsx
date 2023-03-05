@@ -7,7 +7,7 @@ export function useFileLoader(files: FileList) {
 	const [error, setError] = useState<string>();
 	const [loading, setLoading] = useState(false);
 
-	const loadNewFiles = async (newFiles: FileList) =>{
+	const loadNewFiles = async (newFiles: FileList) => {
 		const loadedFiles = await loadFiles(newFiles)
 		setData([...data, ...loadedFiles])
 	}
@@ -23,15 +23,14 @@ export function useFileLoader(files: FileList) {
 				const pages = await PdfLoader.loadDocumentPages(
 					readersResults[arrayBuffer]
 				);
-				// eslint-disable-next-line no-loop-func
 				pages.forEach((page) => {
 					tiles.push({ id: id++, fileId: fileId, pageProxy: page });
 				});
 			}
 			resolve(tiles);
 		});
-	},[fileId, id]);
-	
+	}, [fileId, id]);
+
 
 
 	useEffect(() => {
@@ -42,10 +41,10 @@ export function useFileLoader(files: FileList) {
 				setLoading(false);
 			});
 		}
-		catch(err){
+		catch (err) {
 			setError((err as Error).message)
 		}
-  }, [files, loadFiles]);
+	}, [files, loadFiles]);
 
 	return { data, error, loading, loadNewFiles };
 }
