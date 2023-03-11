@@ -1,8 +1,8 @@
 import { PDFPageProxy } from "pdfjs-dist/types/src/display/api";
 
 type PageInfo = {
-  id: number;
-  fileId: number;
+  documentIndex: number;
+  pageIndex: number;
   pageProxy: PDFPageProxy;
 };
 

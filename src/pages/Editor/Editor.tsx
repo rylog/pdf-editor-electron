@@ -1,9 +1,10 @@
 import classes from "./Editor.module.css"
 import { ChangeEvent } from "react";
-import Gallery from "../ui/Gallery/Gallery";
+import Gallery from "../Editor/Gallery/Gallery";
 import { useLocation } from "react-router-dom";
 import { useFileLoader } from "../../hooks/useFileLoader";
-import FileInputButton from "../ui/Buttons/FileInputButton";
+import FileInputButton from "../../components/Buttons/FileInputButton";
+
 
 const Editor = () => {
   const { state } = useLocation();

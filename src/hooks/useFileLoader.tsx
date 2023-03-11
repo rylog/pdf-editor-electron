@@ -12,25 +12,25 @@ export function useFileLoader(files: FileList) {
 		setData([...data, ...loadedFiles])
 	}
 
-	var id = 0;
-	var fileId = 0;
 
 	const loadFiles = useCallback(async (files: FileList): Promise<PageInfo[]> => {
 		return new Promise<PageInfo[]>(async (resolve) => {
 			const tiles: PageInfo[] = [];
 			const readersResults = await PdfLoader.readFilesAsArrayBuffer(files);
-			for (let arrayBuffer in readersResults) {
+			const indexItem = localStorage.getItem("documentIndex");
+			let documentIndex = indexItem ? JSON.parse(indexItem) : 0;
+			for (const arrayBuffer of readersResults) {
 				const pages = await PdfLoader.loadDocumentPages(
-					readersResults[arrayBuffer]
+					arrayBuffer
 				);
-				pages.forEach((page) => {
-					tiles.push({ id: id++, fileId: fileId, pageProxy: page });
-				});
+				for (const page of pages)
+					tiles.push({ documentIndex, pageIndex: page._pageIndex, pageProxy: page });
+				documentIndex++;
 			}
+			localStorage.setItem("documentIndex", JSON.stringify(documentIndex));
 			resolve(tiles);
 		});
-	}, [fileId, id]);
-
+	}, []);
 
 
 	useEffect(() => {

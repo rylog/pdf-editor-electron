@@ -1,6 +1,7 @@
 @font-face {
   font-family: "Montserrat";
-  src: url(./assets/fonts/Montserrat/Montserrat-VariableFont_wght.ttf) format("truetype");
+  src: url(./assets/fonts/Montserrat/Montserrat-VariableFont_wght.ttf)
+    format("truetype");
 }
 
 html,
@@ -29,12 +30,12 @@ h3 {
   margin: 20px 0px;
 }
 
-#root{
+#root {
   height: 100%;
   width: 100%;
   position: fixed;
 }
 
-.muuri{
+.muuri {
   width: 100%;
 }

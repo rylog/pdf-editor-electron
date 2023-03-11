@@ -3,7 +3,7 @@
   scrollbar-gutter: stable both-edges;
   scrollbar-width: thin;
   width: 100%;
-  max-width: 1080px;
+  /* max-width: 1080px; */
   padding: 20px 4px;
 }
 

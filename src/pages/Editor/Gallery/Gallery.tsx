@@ -1,5 +1,5 @@
 import classes from "./Gallery.module.css"
-import Tile from "../Gallery/Tile";
+import Tile from "./Tile";
 import { AutoScroller, MuuriComponent } from "react-muuri-official";
 import { useRef } from "react";
 import PageInfo from "../../../types/PageInfo";
@@ -28,7 +28,7 @@ const Gallery = (props: GalleryProps) => {
         }}
       >
         {props.pages.map((page) => (
-          <Tile key={page.id} originalIndex={page.id} page={page.pageProxy} />
+          <Tile key={`${page.documentIndex}_${page.pageIndex}`} originalIndex={page.pageIndex} page={page.pageProxy} />
         ))}
       </MuuriComponent>
     </div>

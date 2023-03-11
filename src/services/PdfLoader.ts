@@ -1,21 +1,23 @@
-import { pdfjs,} from "react-pdf";
+import { pdfjs } from "react-pdf";
 import {
   PDFDocumentProxy,
-  PDFPageProxy, 
+  PDFPageProxy,
 } from "pdfjs-dist/types/src/display/api";
 
 const loadDocumentPages = (arrayBuffer: Uint8Array) => {
   return new Promise<PDFPageProxy[]>((resolve, reject) => {
     try {
       pdfjs
-        .getDocument({data: arrayBuffer, cMapUrl: "../../pdfjs-dist/cmaps/",})
+        .getDocument({ data: arrayBuffer, cMapUrl: "../../pdfjs-dist/cmaps/" })
         .promise.then((pdfDocument: PDFDocumentProxy) => {
           //get pages from the document
-          const getPageTasks:Promise<PDFPageProxy>[] = [];
+          const getPageTasks: Promise<PDFPageProxy>[] = [];
           for (let i = 0; i < pdfDocument.numPages; i++) {
             getPageTasks.push(pdfDocument.getPage(i + 1));
           }
-          Promise.all<PDFPageProxy>(getPageTasks).then((pages) => resolve(pages));
+          Promise.all<PDFPageProxy>(getPageTasks).then((pages) =>
+            resolve(pages)
+          );
         });
     } catch (e) {
       reject(e);
@@ -45,7 +47,7 @@ const readFilesAsArrayBuffer = (files: FileList) => {
 };
 const PdfLoader = {
   loadDocumentPages,
-  readFilesAsArrayBuffer
-}
+  readFilesAsArrayBuffer,
+};
 
 export default PdfLoader;
