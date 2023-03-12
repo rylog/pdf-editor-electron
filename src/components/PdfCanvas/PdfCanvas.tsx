@@ -2,7 +2,6 @@ import { useEffect, useRef, useState } from "react";
 import { PDFPageProxy } from "pdfjs-dist/types/src/display/api";
 
 interface PdfCanvasProps {
-	originalIndex: number,
 	page: PDFPageProxy
 }
 

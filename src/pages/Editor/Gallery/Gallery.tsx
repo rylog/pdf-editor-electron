@@ -30,7 +30,7 @@ const Gallery = (props: GalleryProps) => {
       >
         {props.pages.map((page) => (
           <Tile key={`${page.documentIndex}_${page.pageIndex}`}>
-            <PdfCanvas originalIndex={page.pageIndex} page={page.pageProxy} />
+            <PdfCanvas page={page.pageProxy} />
           </Tile>
         ))}
       </MuuriComponent>
