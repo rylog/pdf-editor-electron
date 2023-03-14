@@ -5,7 +5,7 @@ import { ChangeEvent, ReactNode, useRef } from "react";
 
 interface FileInputButtonProps {
   children?: ReactNode;
-  onFileChange: (event: ChangeEvent<HTMLInputElement>) => any;
+  onFileChange: (event: ChangeEvent<HTMLInputElement>) => void;
 }
 
 const FileInputButton = (props: FileInputButtonProps & ButtonProps) => {
@@ -16,8 +16,8 @@ const FileInputButton = (props: FileInputButtonProps & ButtonProps) => {
     if (hiddenFileInput.current)
       hiddenFileInput.current.click();
   }
-  
-  const {children, onFileChange, ...buttonProps } = props
+
+  const { children, onFileChange, ...buttonProps } = props
   return (
     <>
       <input
@@ -25,9 +25,9 @@ const FileInputButton = (props: FileInputButtonProps & ButtonProps) => {
         type="file"
         ref={hiddenFileInput}
         multiple
-        onChange={(event) => onFileChange(event)}
+        onChange={props.onFileChange}
       />
-      <Button {...buttonProps} onClick = {browseFiles}>
+      <Button {...buttonProps} onClick={browseFiles}>
         {children}
       </Button>
     </>

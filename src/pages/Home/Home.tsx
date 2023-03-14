@@ -24,7 +24,7 @@ const Home = () => {
           className={classes.browseBtn}
           color="primary"
           variant="contained"
-          onFileChange={(event) => handleInputChange(event)}
+          onFileChange={handleInputChange}
         >
           Browse files
         </FileInputButton>

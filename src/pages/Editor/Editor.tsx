@@ -27,7 +27,7 @@ const Editor = () => {
         <div>loading</div>
       ) : (
         <div className={classes.Editor}>
-          <FileInputButton onFileChange={(event) => addFiles(event)}>
+          <FileInputButton onFileChange={addFiles}>
             Add
           </FileInputButton>
           <Gallery pages={data} />
