@@ -1,9 +1,9 @@
 import { useCallback, useEffect, useState } from "react";
-import PageInfo from "../types/PageInfo";
 import PdfLoader from "../services/PdfLoader";
+import { PDFPageProxy } from "pdfjs-dist/types/src/display/api";
 
-export function useFileLoader(files: FileList) {
-	const [data, setData] = useState<PageInfo[]>([]);
+export const useFileLoader = (files: FileList) => {
+	const [data, setData] = useState<PDFPageProxy[]>([]);
 	const [error, setError] = useState<string>();
 	const [loading, setLoading] = useState(false);
 
@@ -12,22 +12,17 @@ export function useFileLoader(files: FileList) {
 		setData([...data, ...loadedFiles])
 	}
 
-
-	const loadFiles = useCallback(async (files: FileList): Promise<PageInfo[]> => {
-		return new Promise<PageInfo[]>(async (resolve) => {
-			const tiles: PageInfo[] = [];
+	const loadFiles = useCallback(async (files: FileList): Promise<PDFPageProxy[]> => {
+		return new Promise<PDFPageProxy[]>(async (resolve) => {
+			const tiles: PDFPageProxy[] = [];
 			const readersResults = await PdfLoader.readFilesAsArrayBuffer(files);
-			const indexItem = localStorage.getItem("documentIndex");
-			let documentIndex = indexItem ? JSON.parse(indexItem) : 0;
 			for (const arrayBuffer of readersResults) {
 				const pages = await PdfLoader.loadDocumentPages(
 					arrayBuffer
 				);
 				for (const page of pages)
-					tiles.push({ documentIndex, pageIndex: page._pageIndex, pageProxy: page });
-				documentIndex++;
+					tiles.push(page);
 			}
-			localStorage.setItem("documentIndex", JSON.stringify(documentIndex));
 			resolve(tiles);
 		});
 	}, []);

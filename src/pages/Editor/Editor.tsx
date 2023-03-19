@@ -1,7 +1,6 @@
 import classes from "./Editor.module.css"
 import { ChangeEvent } from "react";
 import Gallery from "../Editor/Gallery/Gallery";
-
 import { useFileLoader } from "../../hooks/useFileLoader";
 import FileInputButton from "../../components/Buttons/FileInputButton";
 import { useLocation } from "react-router-dom";

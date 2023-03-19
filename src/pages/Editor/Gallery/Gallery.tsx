@@ -1,12 +1,12 @@
 import classes from "./Gallery.module.css"
 import { AutoScroller, MuuriComponent } from "react-muuri-official";
 import { useRef } from "react";
-import PageInfo from "../../../types/PageInfo";
+import { PDFPageProxy } from "pdfjs-dist/types/src/display/api";
 import PdfCanvas from "../../../components/PdfCanvas/PdfCanvas";
 import Tile from "../../../components/Tile/Tile";
 
 interface GalleryProps {
-  pages: PageInfo[];
+  pages: PDFPageProxy[];
 }
 
 const Gallery = (props: GalleryProps) => {
@@ -28,9 +28,9 @@ const Gallery = (props: GalleryProps) => {
           ],
         }}
       >
-        {props.pages.map((page) => (
-          <Tile key={`${page.documentIndex}_${page.pageIndex}`}>
-            <PdfCanvas page={page.pageProxy} />
+        {props.pages.map((page, i) => (
+          <Tile key={`${i}_${page._pageIndex}`}>
+            <PdfCanvas page={page} />
           </Tile>
         ))}
       </MuuriComponent>
