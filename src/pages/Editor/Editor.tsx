@@ -1,14 +1,14 @@
 import classes from "./Editor.module.css"
 import { ChangeEvent } from "react";
 import Gallery from "../Editor/Gallery/Gallery";
-import { useLocation } from "react-router-dom";
+
 import { useFileLoader } from "../../hooks/useFileLoader";
 import FileInputButton from "../../components/Buttons/FileInputButton";
+import { useLocation } from "react-router-dom";
 
 
 const Editor = () => {
-  const { state } = useLocation();
-  const { files } = state;
+  const { files } = useLocation().state as { files: FileList };
   const { data, loading, error, loadNewFiles } = useFileLoader(files);
 
   if (error) {

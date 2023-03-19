@@ -9,8 +9,7 @@ const Home = () => {
   const navigate = useNavigate();
   const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
     const files = event.target.files;
-    console.log(files)
-    navigate("/editor", { state: { files: files } });
+    navigate("/editor", { state: { files } });
   };
 
   return (
