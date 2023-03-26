@@ -1,23 +1,24 @@
 import classes from "./Gallery.module.css"
-import { AutoScroller, MuuriComponent } from "react-muuri-official";
-import { useRef } from "react";
+import { AutoScroller, MuuriComponent } from "@namecheap/react-muuri";
+import { forwardRef, useRef } from "react";
 import { PDFPageProxy } from "pdfjs-dist/types/src/display/api";
 import PdfCanvas from "../../../components/PdfCanvas/PdfCanvas";
 import Tile from "../../../components/Tile/Tile";
+import { DecoratedGrid } from "@namecheap/react-muuri/dist/types/interfaces";
 
 interface GalleryProps {
   pages: PDFPageProxy[];
 }
 
-const Gallery = (props: GalleryProps) => {
-  const scrollElemRef = useRef(null);
+const Gallery = forwardRef<DecoratedGrid, GalleryProps>((props, ref) => {
+  const scrollElemRef = useRef<HTMLDivElement>(null);
   return (
     <div className={classes.Gallery} ref={scrollElemRef}>
-      <MuuriComponent
+      <MuuriComponent ref={ref}
         dragEnabled
         layoutDuration={300}
         layoutEasing={"ease-out"}
-        dragContainer={document.getElementById("root")}
+        dragContainer={document.getElementById("app")}
         dragAutoScroll={{
           sortDuringScroll: false,
           targets: [
@@ -36,6 +37,6 @@ const Gallery = (props: GalleryProps) => {
       </MuuriComponent>
     </div>
   );
-};
+});
 
 export default Gallery;
