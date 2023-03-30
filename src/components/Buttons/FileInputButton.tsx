@@ -1,37 +1,35 @@
-import classes from "./FileInputButton.module.css"
-import Button from "@mui/material/Button";
-import { ButtonProps } from "@mui/material/Button/Button";
-import { ChangeEvent, ReactNode, useRef } from "react";
+import Button from '@mui/material/Button';
+import { ButtonProps } from '@mui/material/Button/Button';
+import { ChangeEvent, useRef } from 'react';
+
+import classes from './FileInputButton.module.css';
 
 interface FileInputButtonProps {
-  children?: ReactNode;
   onFileChange: (event: ChangeEvent<HTMLInputElement>) => void;
 }
 
-const FileInputButton = (props: FileInputButtonProps & ButtonProps) => {
+function FileInputButton(props: FileInputButtonProps & ButtonProps): JSX.Element {
+  const hiddenFileInputRef = useRef<HTMLInputElement>(null);
 
-  const hiddenFileInput = useRef<HTMLInputElement>(null);
+  const browseFiles = (): void => {
+    hiddenFileInputRef.current?.click();
+  };
 
-  const browseFiles = () => {
-    if (hiddenFileInput.current)
-      hiddenFileInput.current.click();
-  }
-
-  const { children, onFileChange, ...buttonProps } = props
+  const { children, onFileChange, ...buttonProps } = props;
   return (
     <>
       <input
         className={classes.fileInput}
         type="file"
-        ref={hiddenFileInput}
+        ref={hiddenFileInputRef}
         multiple
-        onChange={props.onFileChange}
+        onChange={onFileChange}
       />
       <Button {...buttonProps} onClick={browseFiles}>
         {children}
       </Button>
     </>
-  )
+  );
 }
 
 export default FileInputButton;

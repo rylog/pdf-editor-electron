@@ -1,10 +1,7 @@
-import classes from "./TitleBar.module.css"
+import classes from './TitleBar.module.css';
 
-const TitleBar = () => {
-	return (
-		<div className={classes.TitleBar}>
-		</div>
-	);
-};
+function TitleBar(): JSX.Element {
+  return <div className={classes.TitleBar} />;
+}
 
 export default TitleBar;

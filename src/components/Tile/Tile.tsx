@@ -1,18 +1,20 @@
-import classes from "./Tile.module.css"
-import { ReactNode } from "react";
-import { useTheme } from "@mui/material/styles";
+import { useTheme } from '@mui/material/styles';
+import { ReactNode } from 'react';
+
+import classes from './Tile.module.css';
 
 interface TileProps {
   children: ReactNode;
 }
 
-const Tile = (props: TileProps) => {
+function Tile(props: TileProps): JSX.Element {
+  const { children } = props;
   const theme = useTheme();
   return (
     <div className={classes.tile} style={{ background: theme.palette.background.paper }}>
-      {props.children}
-    </div >
-  )
+      {children}
+    </div>
+  );
 }
 
 export default Tile;

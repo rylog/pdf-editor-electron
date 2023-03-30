@@ -1,21 +1,22 @@
-import classes from "./Home.module.css";
-import Folder from "@mui/icons-material/Folder";
-import { ChangeEvent } from "react";
-import { useNavigate } from "react-router-dom";
-import { Paper } from "@mui/material";
-import FileInputButton from "../../components/Buttons/FileInputButton";
+import Folder from '@mui/icons-material/Folder';
+import { Paper } from '@mui/material';
+import { ChangeEvent } from 'react';
+import { useNavigate } from 'react-router-dom';
 
-const Home = () => {
+import FileInputButton from '../../components/Buttons/FileInputButton';
+import classes from './Home.module.css';
+
+function Home(): JSX.Element {
   const navigate = useNavigate();
-  const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
-    const files = event.target.files;
-    navigate("/editor", { state: { files } });
+  const handleInputChange = (event: ChangeEvent<HTMLInputElement>): void => {
+    const { files } = event.target;
+    navigate('/editor', { state: { files } });
   };
 
   return (
     <div className={classes.main}>
       <Paper className={classes.fileUpload} elevation={0}>
-        <Folder color="primary" sx={{ fontSize: 108 }}></Folder>
+        <Folder color="primary" sx={{ fontSize: 108 }} />
         <h1>Drag your PDF files here</h1>
         <p className={classes.lined}>OR</p>
         <FileInputButton
@@ -28,8 +29,8 @@ const Home = () => {
           Browse files
         </FileInputButton>
       </Paper>
-    </div >
+    </div>
   );
-};
+}
 
 export default Home;
