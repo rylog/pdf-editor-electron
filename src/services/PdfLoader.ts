@@ -1,12 +1,7 @@
-import {
-  type PDFDocumentProxy,
-  type PDFPageProxy,
-} from 'pdfjs-dist/types/src/display/api';
+import { PDFDocumentProxy, PDFPageProxy } from 'pdfjs-dist/types/src/display/api';
 import { pdfjs } from 'react-pdf';
 
-const loadDocumentPages = async (
-  arrayBuffer: Uint8Array,
-): Promise<PDFPageProxy[]> =>
+const loadDocumentPages = async (arrayBuffer: Uint8Array): Promise<PDFPageProxy[]> =>
   new Promise<PDFPageProxy[]>((resolve, reject) => {
     try {
       pdfjs
@@ -26,33 +21,20 @@ const loadDocumentPages = async (
     }
   });
 
-// eslint-disable-next-line max-len
-const readAsArrayBuffer = async (file: File): Promise<Uint8Array> =>
-  new Promise((resolve, reject) => {
-    const filereader = new FileReader();
-    filereader.onload = (): void => {
-      resolve(new Uint8Array(filereader.result as ArrayBuffer));
-    };
-    filereader.onerror = (): void => {
-      reject(filereader);
-    };
-    filereader.readAsArrayBuffer(file);
-  });
+const readAsArrayBuffer = async (file: File): Promise<Uint8Array> => {
+  const arrayBuffer = await file.arrayBuffer();
+  return new Uint8Array(arrayBuffer);
+};
 
-const readFilesAsArrayBuffer = async (
-  files: FileList,
-): Promise<Uint8Array[]> => {
-  const readers: Array<Promise<Uint8Array>> = [];
-  // Read all inputs
-  Array.from(files).forEach((file) => {
-    readers.push(readAsArrayBuffer(file));
-  });
-
+const readFilesAsArrayBuffer = async (files: FileList): Promise<Uint8Array[]> => {
+  const readers: Promise<Uint8Array>[] = Array.from(files).map((file) => readAsArrayBuffer(file));
   return Promise.all(readers);
 };
+
 const PdfLoader = {
   loadDocumentPages,
   readFilesAsArrayBuffer,
+  readAsArrayBuffer,
 };
 
 export default PdfLoader;

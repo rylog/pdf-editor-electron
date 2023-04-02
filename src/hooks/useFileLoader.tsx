@@ -12,8 +12,8 @@ type UseFileLoaderReturnType = {
 
 const useFileLoader = (initialFiles: FileList): UseFileLoaderReturnType => {
   const [data, setData] = useState<PDFPageProxy[]>([]);
-  const [error, setError] = useState<string | undefined>();
-  const [loading, setLoading] = useState<boolean>(false);
+  const [error, setError] = useState<string>();
+  const [loading, setLoading] = useState(false);
 
   const loadFiles = useCallback(async (files: FileList): Promise<PDFPageProxy[]> => {
     const readersResults = await PdfLoader.readFilesAsArrayBuffer(files);
@@ -21,31 +21,26 @@ const useFileLoader = (initialFiles: FileList): UseFileLoaderReturnType => {
       const pages = await PdfLoader.loadDocumentPages(arrayBuffer);
       return pages;
     });
-    const pageProxies = await Promise.all(promises);
-    return pageProxies.flat();
+    const pages = await Promise.all(promises);
+    const tiles = pages.flat();
+    return tiles;
   }, []);
 
-  const loadNewFiles = useCallback((newFiles: FileList) => {
-    setLoading(true);
-    loadFiles(newFiles)
-      .then((loadedFiles) => setData((prevData) => [...prevData, ...loadedFiles]))
-      .catch((err) => setError((err as Error).message))
-      .finally(() => setLoading(false));
+  const loadNewFiles = useCallback(async (newFiles: FileList) => {
+    const loadedFiles = await loadFiles(newFiles);
+    setData((prevData) => [...prevData, ...loadedFiles]);
   }, [loadFiles]);
 
   useEffect(() => {
     setLoading(true);
     loadFiles(initialFiles)
       .then((loadedFiles) => setData(loadedFiles))
-      .catch((err) => setError((err as Error).message))
+      .catch((e) => setError((e as Error).message))
       .finally(() => setLoading(false));
   }, [initialFiles, loadFiles]);
 
   return {
-    data,
-    error,
-    loading,
-    loadNewFiles,
+    data, error, loading, loadNewFiles,
   };
 };
 
