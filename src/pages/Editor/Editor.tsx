@@ -5,6 +5,7 @@ import { useLocation } from 'react-router-dom';
 
 import FileInputButton from '../../components/Buttons/FileInputButton';
 import useFileLoader from '../../hooks/useFileLoader';
+import PdfGenerator from '../../services/PdfGenerator';
 import classes from './Editor.module.css';
 import Gallery from './Gallery/Gallery';
 
@@ -26,6 +27,7 @@ function Editor(): JSX.Element {
   };
 
   const click = (): void => {
+    PdfGenerator.createPdf();
     console.log(gridRef.current?.getItem(0)?.getData());
   };
 
