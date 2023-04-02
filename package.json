@@ -24,7 +24,7 @@
     "react-pdf": "^6.2.1",
     "react-router-dom": "^6.9.0",
     "react-scripts": "5.0.1",
-    "typescript": "^4.4.2",
+    "typescript": "*",
     "web-animations-js": "^2.3.2",
     "web-vitals": "^2.1.0"
   },
@@ -45,12 +45,6 @@
     "build": "yarn react-build && yarn electron-build",
     "start": "concurrently \"cross-env BROWSER=none yarn react-start\" \"wait-on http://localhost:3000 && electron .\""
   },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ]
-  },
   "browserslist": {
     "production": [
       ">0.2%",
@@ -66,10 +60,20 @@
   "devDependencies": {
     "@types/react-pdf": "^6.2.0",
     "@types/react-router-dom": "^5.3.3",
+    "@typescript-eslint/eslint-plugin": "^5.43.0",
     "concurrently": "^7.6.0",
     "cross-env": "^7.0.3",
     "electron": "^22.0.0",
     "electron-builder": "^23.6.0",
+    "eslint": "^8.0.1",
+    "eslint-config-airbnb": "^19.0.4",
+    "eslint-config-airbnb-typescript": "^17.0.0",
+    "eslint-config-standard-with-typescript": "^34.0.1",
+    "eslint-plugin-import": "^2.25.2",
+    "eslint-plugin-n": "^15.0.0",
+    "eslint-plugin-promise": "^6.0.0",
+    "eslint-plugin-react": "^7.32.2",
+    "eslint-plugin-simple-import-sort": "^10.0.0",
     "wait-on": "^7.0.1"
   }
 }

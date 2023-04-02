@@ -1,21 +1,23 @@
-import "./App.css";
-import { ThemeProvider, createTheme } from "@mui/material/styles";
-import { Components, CssBaseline } from "@mui/material";
-import { MemoryRouter as Router, Routes, Route } from "react-router-dom";
-import { pdfjs } from "react-pdf";
-import { TypographyOptions } from "@mui/material/styles/createTypography";
-import TitleBar from "./components/TitleBar/TitleBar";
-import Home from "./pages/Home/Home";
-import Editor from "./pages/Editor/Editor";
+import './App.css';
 
-pdfjs.GlobalWorkerOptions.workerSrc = `./pdfjs-dist/build/pdf.worker.min.js`;
+import { Components, CssBaseline } from '@mui/material';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { TypographyOptions } from '@mui/material/styles/createTypography';
+import { pdfjs } from 'react-pdf';
+import { MemoryRouter as Router, Route, Routes } from 'react-router-dom';
+
+import TitleBar from './components/TitleBar/TitleBar';
+import Editor from './pages/Editor/Editor';
+import Home from './pages/Home/Home';
+
+pdfjs.GlobalWorkerOptions.workerSrc = './pdfjs-dist/build/pdf.worker.min.js';
 
 const componentOptions: Components = {
   MuiButton: {
     variants: [
       {
-        props: { size: "medium" },
-        style: { fontSize: 16, padding: "6px 24px" },
+        props: { size: 'medium' },
+        style: { fontSize: 16, padding: '6px 24px' },
       },
     ],
   },
@@ -23,20 +25,20 @@ const componentOptions: Components = {
 
 const typographyOptions: TypographyOptions = {
   button: {
-    textTransform: "none",
+    textTransform: 'none',
   },
-  fontFamily: "Montserrat",
+  fontFamily: 'Montserrat',
 };
 
 const themeLight = createTheme({
   components: componentOptions,
   palette: {
     background: {
-      default: "#f5f9fd",
-      paper: "#ffffff",
+      default: '#f5f9fd',
+      paper: '#ffffff',
     },
     primary: {
-      main: "#428dfd",
+      main: '#428dfd',
     },
   },
   typography: typographyOptions,
@@ -45,15 +47,15 @@ const themeLight = createTheme({
 const themeDark = createTheme({
   components: componentOptions,
   palette: {
-    mode: "dark",
+    mode: 'dark',
     text: {
-      primary: "#ffffff",
+      primary: '#ffffff',
     },
   },
   typography: typographyOptions,
 });
 
-export default function App() {
+export default function App(): JSX.Element {
   return (
     <ThemeProvider theme={themeLight}>
       <CssBaseline />

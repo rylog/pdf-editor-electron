@@ -1,53 +1,40 @@
-import { pdfjs } from "react-pdf";
-import {
-  PDFDocumentProxy,
-  PDFPageProxy,
-} from "pdfjs-dist/types/src/display/api";
+import { PDFDocumentProxy, PDFPageProxy } from 'pdfjs-dist/types/src/display/api';
+import { pdfjs } from 'react-pdf';
 
-const loadDocumentPages = (arrayBuffer: Uint8Array) => {
-  return new Promise<PDFPageProxy[]>((resolve, reject) => {
+const loadDocumentPages = async (arrayBuffer: Uint8Array): Promise<PDFPageProxy[]> =>
+  new Promise<PDFPageProxy[]>((resolve, reject) => {
     try {
       pdfjs
-        .getDocument({ data: arrayBuffer, cMapUrl: "../../pdfjs-dist/cmaps/" })
+        .getDocument({ data: arrayBuffer, cMapUrl: '../../pdfjs-dist/cmaps/' })
         .promise.then((pdfDocument: PDFDocumentProxy) => {
-          //get pages from the document
-          const getPageTasks: Promise<PDFPageProxy>[] = [];
+          // get pages from the document
+          const getPageTasks: Array<Promise<PDFPageProxy>> = [];
           for (let i = 0; i < pdfDocument.numPages; i++) {
             getPageTasks.push(pdfDocument.getPage(i + 1));
           }
-          Promise.all<PDFPageProxy>(getPageTasks).then((pages) =>
-            resolve(pages)
-          );
+          Promise.all<PDFPageProxy>(getPageTasks).then((pages) => {
+            resolve(pages);
+          });
         });
     } catch (e) {
       reject(e);
     }
   });
+
+const readAsArrayBuffer = async (file: File): Promise<Uint8Array> => {
+  const arrayBuffer = await file.arrayBuffer();
+  return new Uint8Array(arrayBuffer);
 };
 
-const readAsArrayBuffer = (file: File) => {
-  return new Promise<Uint8Array>((resolve, reject) => {
-    const filereader = new FileReader();
-    filereader.onload = () => {
-      resolve(new Uint8Array(filereader.result as ArrayBuffer));
-    };
-    filereader.onerror = () => reject(filereader);
-    filereader.readAsArrayBuffer(file);
-  });
-};
-
-const readFilesAsArrayBuffer = (files: FileList) => {
-  const readers: Promise<Uint8Array>[] = [];
-  //Read all inputs
-  Array.from(files).forEach((file) => {
-    readers.push(readAsArrayBuffer(file));
-  });
-
+const readFilesAsArrayBuffer = async (files: FileList): Promise<Uint8Array[]> => {
+  const readers: Promise<Uint8Array>[] = Array.from(files).map((file) => readAsArrayBuffer(file));
   return Promise.all(readers);
 };
+
 const PdfLoader = {
   loadDocumentPages,
   readFilesAsArrayBuffer,
+  readAsArrayBuffer,
 };
 
 export default PdfLoader;

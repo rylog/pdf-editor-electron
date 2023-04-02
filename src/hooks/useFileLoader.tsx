@@ -1,45 +1,47 @@
-import { useCallback, useEffect, useState } from "react";
-import PdfLoader from "../services/PdfLoader";
-import { PDFPageProxy } from "pdfjs-dist/types/src/display/api";
+import { PDFPageProxy } from 'pdfjs-dist/types/src/display/api';
+import { useCallback, useEffect, useState } from 'react';
 
-export const useFileLoader = (files: FileList) => {
-	const [data, setData] = useState<PDFPageProxy[]>([]);
-	const [error, setError] = useState<string>();
-	const [loading, setLoading] = useState(false);
+import PdfLoader from '../services/PdfLoader';
 
-	const loadNewFiles = async (newFiles: FileList) => {
-		const loadedFiles = await loadFiles(newFiles)
-		setData([...data, ...loadedFiles])
-	}
+type UseFileLoaderReturnType = {
+  data: PDFPageProxy[];
+  error?: string;
+  loading: boolean;
+  loadNewFiles: (newFiles: FileList) => void;
+};
 
-	const loadFiles = useCallback(async (files: FileList): Promise<PDFPageProxy[]> => {
-		return new Promise<PDFPageProxy[]>(async (resolve) => {
-			const tiles: PDFPageProxy[] = [];
-			const readersResults = await PdfLoader.readFilesAsArrayBuffer(files);
-			for (const arrayBuffer of readersResults) {
-				const pages = await PdfLoader.loadDocumentPages(
-					arrayBuffer
-				);
-				for (const page of pages)
-					tiles.push(page);
-			}
-			resolve(tiles);
-		});
-	}, []);
+const useFileLoader = (initialFiles: FileList): UseFileLoaderReturnType => {
+  const [data, setData] = useState<PDFPageProxy[]>([]);
+  const [error, setError] = useState<string>();
+  const [loading, setLoading] = useState(false);
 
+  const loadFiles = useCallback(async (files: FileList): Promise<PDFPageProxy[]> => {
+    const readersResults = await PdfLoader.readFilesAsArrayBuffer(files);
+    const promises = readersResults.map(async (arrayBuffer) => {
+      const pages = await PdfLoader.loadDocumentPages(arrayBuffer);
+      return pages;
+    });
+    const pages = await Promise.all(promises);
+    const tiles = pages.flat();
+    return tiles;
+  }, []);
 
-	useEffect(() => {
-		try {
-			loadFiles(files).then((loadedFiles) => {
-				setLoading(true);
-				setData(loadedFiles);
-				setLoading(false);
-			});
-		}
-		catch (err) {
-			setError((err as Error).message)
-		}
-	}, [files, loadFiles]);
+  const loadNewFiles = useCallback(async (newFiles: FileList) => {
+    const loadedFiles = await loadFiles(newFiles);
+    setData((prevData) => [...prevData, ...loadedFiles]);
+  }, [loadFiles]);
 
-	return { data, error, loading, loadNewFiles };
-}
+  useEffect(() => {
+    setLoading(true);
+    loadFiles(initialFiles)
+      .then((loadedFiles) => setData(loadedFiles))
+      .catch((e) => setError((e as Error).message))
+      .finally(() => setLoading(false));
+  }, [initialFiles, loadFiles]);
+
+  return {
+    data, error, loading, loadNewFiles,
+  };
+};
+
+export default useFileLoader;
