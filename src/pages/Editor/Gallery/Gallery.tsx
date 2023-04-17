@@ -1,14 +1,14 @@
 import { AutoScroller, MuuriComponent } from '@namecheap/react-muuri';
 import { type DecoratedGrid } from '@namecheap/react-muuri/dist/types/interfaces';
-import { type PDFPageProxy } from 'pdfjs-dist/types/src/display/api';
 import { forwardRef, useRef } from 'react';
 
-import PdfCanvas from '../../../components/PdfCanvas/PdfCanvas';
+import PDFCanvas from '../../../components/PDFCanvas/PDFCanvas';
 import Tile from '../../../components/Tile/Tile';
 import classes from './Gallery.module.css';
+import { LoadedPDFPage } from '@/components/PDFPagesProvider/PDFPagesProvider';
 
 interface GalleryProps {
-  pages: PDFPageProxy[]
+  loadedPages: LoadedPDFPage[]
 }
 
 const Gallery = forwardRef<DecoratedGrid, GalleryProps>((props, ref) => {
@@ -20,7 +20,7 @@ const Gallery = forwardRef<DecoratedGrid, GalleryProps>((props, ref) => {
         dragEnabled
         layoutDuration={300}
         layoutEasing="ease-out"
-        dragContainer={document.getElementById('app')}
+        dragContainer={document.getElementById('root')}
         dragAutoScroll={{
           sortDuringScroll: false,
           targets: [
@@ -29,12 +29,13 @@ const Gallery = forwardRef<DecoratedGrid, GalleryProps>((props, ref) => {
               axis: AutoScroller.AXIS_Y,
             },
           ],
-        }}
+        }
+        }
+
       >
-        {props.pages.map((page, i) => (
-          // eslint-disable-next-line react/no-array-index-key
-          <Tile key={`${i}_${page._pageIndex as string}`}>
-            <PdfCanvas page={page} />
+        {props.loadedPages.map((loadedPage) => (
+          <Tile key={`${loadedPage.fileId}_${loadedPage.page._pageIndex as string}`}>
+            <PDFCanvas page={loadedPage.page} />
           </Tile>
         ))}
       </MuuriComponent>
