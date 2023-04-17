@@ -1,35 +1,40 @@
 import { PDFPageProxy } from 'pdfjs-dist/types/src/display/api';
-import { useEffect, useRef, useState } from 'react';
+import { memo, useCallback, useEffect, useRef } from 'react';
 
-interface PdfCanvasProps {
-  page: PDFPageProxy
-}
+const calculateScale = (height: number, width: number): number => {
+  let scale = 1;
+  if (height >= width) {
+    const desiredHeight = 232;
+    const desireWidth = 180;
+    scale = Math.min(desiredHeight / height, desireWidth / width);
+  } else {
+    const desiredHeight = 180;
+    scale = desiredHeight / width;
+  }
+  return scale;
+};
 
-function PdfCanvas(props: PdfCanvasProps): JSX.Element {
-  const canvasRef = useRef<HTMLCanvasElement>(null);
-  const { page } = props;
-  const [pageToRender] = useState<PDFPageProxy>(page);
+const useRenderPageOnCanvas = (canvasRef: React.RefObject<HTMLCanvasElement>, pageToRender: PDFPageProxy): void => {
+  const renderPageOnCanvas = useCallback(async (): Promise<void> => {
+    const pageProxy = pageToRender;
+    const canvas = canvasRef.current;
 
-  const renderPageOnCanvas = (pageProxy: PDFPageProxy): void => {
-    if (canvasRef.current == null) {
+    if (!pageProxy || !canvas) {
       return;
     }
-    const canvas = canvasRef.current;
+
     const viewport = pageProxy.getViewport({ scale: 1 });
-    let scale = 1;
-    if (viewport.height >= viewport.width) {
-      const desiredHeight = 232;
-      const desireWidth = 180;
-      scale = Math.min((desiredHeight / viewport.height), (desireWidth / viewport.width));
-    } else {
-      const desiredHeight = 180;
-      scale = desiredHeight / viewport.width;
-    }
+    const { height, width } = viewport;
+
+    const scale = calculateScale(height, width);
     const scaledViewport = pageProxy.getViewport({ scale });
+
     canvas.height = scaledViewport.height;
     canvas.width = scaledViewport.width;
+
     const ctx = canvas.getContext('2d');
-    if (ctx == null) {
+
+    if (!ctx) {
       return;
     }
 
@@ -38,14 +43,24 @@ function PdfCanvas(props: PdfCanvasProps): JSX.Element {
       viewport: scaledViewport,
     };
 
-    pageProxy.render(renderCtx);
-  };
+    await pageProxy.render(renderCtx).promise;
+  }, [canvasRef, pageToRender]);
 
   useEffect(() => {
-    renderPageOnCanvas(pageToRender);
-  }, [pageToRender]);
+    renderPageOnCanvas();
+  }, [renderPageOnCanvas]);
+};
 
-  return <canvas ref={canvasRef} />;
+interface PDFCanvasProps {
+  page: PDFPageProxy
 }
 
-export default PdfCanvas;
+const PDFCanvas = memo((props: PDFCanvasProps): JSX.Element => {
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const { page } = props;
+  useRenderPageOnCanvas(canvasRef, page);
+  return <canvas ref={canvasRef} />;
+});
+
+PDFCanvas.displayName = 'PDFCanvas';
+export default PDFCanvas;

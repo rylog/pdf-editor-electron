@@ -15,13 +15,3 @@
     0 0 20px 4px rgba(0, 0, 0, 0.5);
   cursor: pointer;
 }
-
-.muuri-item-dragging {
-  z-index: 3;
-  cursor: move !important;
-}
-
-.muuri-item-releasing {
-  z-index: 3;
-  cursor: move !important;
-}

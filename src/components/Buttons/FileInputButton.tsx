@@ -12,7 +12,10 @@ function FileInputButton(props: FileInputButtonProps & ButtonProps): JSX.Element
   const hiddenFileInputRef = useRef<HTMLInputElement>(null);
 
   const browseFiles = (): void => {
-    hiddenFileInputRef.current?.click();
+    if (hiddenFileInputRef.current != null) {
+      hiddenFileInputRef.current.value = '';
+      hiddenFileInputRef.current.click();
+    }
   };
 
   const { children, onFileChange, ...buttonProps } = props;

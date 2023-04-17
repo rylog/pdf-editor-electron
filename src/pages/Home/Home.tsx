@@ -5,12 +5,16 @@ import { useNavigate } from 'react-router-dom';
 
 import FileInputButton from '../../components/Buttons/FileInputButton';
 import classes from './Home.module.css';
+import { usePDFPages } from '@/components/PDFPagesProvider/PDFPagesProvider';
 
 function Home(): JSX.Element {
   const navigate = useNavigate();
-  const handleInputChange = (event: ChangeEvent<HTMLInputElement>): void => {
+  const { loadPdfPages } = usePDFPages();
+  const handleInputChange = async (event: ChangeEvent<HTMLInputElement>): Promise<void> => {
     const { files } = event.target;
-    navigate('/editor', { state: { files } });
+    if (files)
+      await loadPdfPages(files)
+    navigate('/editor');
   };
 
   return (

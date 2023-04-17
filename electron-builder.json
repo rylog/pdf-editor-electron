@@ -1,0 +1,28 @@
+{
+  "appId": "com.example.pdf-editor-electron",
+  "productName": "Pdf Editor",
+  "directories": {
+    "output": "build"
+  },
+  "files": ["dist/**/*", "node_modules/**/*"],
+  "extraResources": [
+    {
+      "from": "assets",
+      "to": "assets"
+    }
+  ],
+  "win": {
+    "target": [
+      {
+        "target": "nsis",
+        "arch": ["x64", "ia32"]
+      }
+    ]
+  },
+  "mac": {
+    "category": "public.app-category.productivity"
+  },
+  "linux": {
+    "target": ["AppImage", "deb"]
+  }
+}
