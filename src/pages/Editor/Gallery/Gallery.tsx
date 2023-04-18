@@ -2,10 +2,12 @@ import { AutoScroller, MuuriComponent } from '@namecheap/react-muuri';
 import { type DecoratedGrid } from '@namecheap/react-muuri/dist/types/interfaces';
 import { forwardRef, useRef } from 'react';
 
-import PDFCanvas from '../../../components/PDFCanvas/PDFCanvas';
 import Tile from '../../../components/Tile/Tile';
 import classes from './Gallery.module.css';
 import { LoadedPDFPage } from '@/components/PDFPagesProvider/PDFPagesProvider';
+import PDFCanvas from '@/components/PDFCanvas/PDFCanvas';
+
+
 
 interface GalleryProps {
   loadedPages: LoadedPDFPage[]
