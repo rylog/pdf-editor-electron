@@ -3,8 +3,8 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 module.exports = {
 	mode: 'development',
 	entry: {
-		main: path.join(__dirname, '../src/main.ts'),
-		preload: path.join(__dirname, '../src/preload.ts'),
+		main: path.join(__dirname, '../electron/main.ts'),
+		preload: path.join(__dirname, '../electron/preload.ts'),
 	},
 	target: 'electron-main',
 	resolve: {
@@ -17,7 +17,7 @@ module.exports = {
 		rules: [
 			{
 				test: /\.ts?$/,
-				include: /src/,
+				include: [path.resolve(__dirname, '../src'), path.resolve(__dirname, '../electron')],
 				use: 'ts-loader',
 				exclude: /node_modules/
 			},

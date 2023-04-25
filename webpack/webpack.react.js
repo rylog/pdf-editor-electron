@@ -5,7 +5,7 @@ const { warn } = require('console');
 
 module.exports = {
 	mode: 'development',
-	entry: path.join(__dirname, '../src/renderer'),
+	entry: path.join(__dirname, '../electron/renderer'),
 	target: 'web',
 	devtool: 'source-map',
 	devServer: {
@@ -26,7 +26,7 @@ module.exports = {
 		rules: [
 			{
 				test: /\.tsx?$/,
-				include: /src/,
+				include: [path.resolve(__dirname, '../src'), path.resolve(__dirname, '../electron')],
 				use: 'ts-loader',
 				exclude: /node_modules/
 			},
