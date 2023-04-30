@@ -12,11 +12,6 @@
       "@/*": ["src/*"]
     }
   },
-  "include": [
-    "src",
-    "src/declarations.d.ts",
-    "config/webpack",
-    "electron/**/*"
-  ],
+  "include": ["src", "src/declarations.d.ts", "electron", "config/webpack"],
   "exclude": ["node_modules/**/*", "public/**/*", "dist/**/*"]
 }
