@@ -8,7 +8,9 @@ interface FileInputButtonProps {
   onFileChange: (event: ChangeEvent<HTMLInputElement>) => void;
 }
 
-function FileInputButton(props: FileInputButtonProps & ButtonProps): JSX.Element {
+function FileInputButton(
+  props: FileInputButtonProps & ButtonProps
+): JSX.Element {
   const hiddenFileInputRef = useRef<HTMLInputElement>(null);
 
   const browseFiles = (): void => {

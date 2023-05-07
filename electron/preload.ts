@@ -1,3 +1,5 @@
 const { contextBridge, ipcRenderer } = require('electron');
 
-contextBridge.exposeInMainWorld('ipcRenderer', ipcRenderer);
+contextBridge.exposeInMainWorld('electronAPI', {
+  savePDF: (blob: Blob) => ipcRenderer.send('save-PDF', blob),
+});

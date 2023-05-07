@@ -7,10 +7,8 @@ import classes from './Gallery.module.css';
 import { LoadedPDFPage } from '@/components/PDFPagesProvider/PDFPagesProvider';
 import PDFCanvas from '@/components/PDFCanvas/PDFCanvas';
 
-
-
 interface GalleryProps {
-  loadedPages: LoadedPDFPage[]
+  loadedPages: LoadedPDFPage[];
 }
 
 const Gallery = forwardRef<DecoratedGrid, GalleryProps>((props, ref) => {
@@ -31,12 +29,12 @@ const Gallery = forwardRef<DecoratedGrid, GalleryProps>((props, ref) => {
               axis: AutoScroller.AXIS_Y,
             },
           ],
-        }
-        }
-
+        }}
       >
         {props.loadedPages.map((loadedPage) => (
-          <Tile key={`${loadedPage.fileId}_${loadedPage.page._pageIndex as string}`}>
+          <Tile
+            key={`${loadedPage.fileId}_${loadedPage.page._pageIndex as string}`}
+          >
             <PDFCanvas page={loadedPage.page} />
           </Tile>
         ))}

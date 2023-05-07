@@ -9,11 +9,12 @@ import { usePDFPages } from '@/components/PDFPagesProvider/PDFPagesProvider';
 
 function Home(): JSX.Element {
   const navigate = useNavigate();
-  const { loadPdfPages } = usePDFPages();
-  const handleInputChange = async (event: ChangeEvent<HTMLInputElement>): Promise<void> => {
+  const { loadPDFPages } = usePDFPages();
+  const handleInputChange = async (
+    event: ChangeEvent<HTMLInputElement>
+  ): Promise<void> => {
     const { files } = event.target;
-    if (files)
-      await loadPdfPages(files)
+    if (files) await loadPDFPages(files);
     navigate('/editor');
   };
 

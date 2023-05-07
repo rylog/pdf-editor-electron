@@ -11,7 +11,10 @@ function Tile(props: TileProps): JSX.Element {
   const { children } = props;
   const theme = useTheme();
   return (
-    <div className={classes.tile} style={{ background: theme.palette.background.paper }}>
+    <div
+      className={classes.tile}
+      style={{ background: theme.palette.background.paper }}
+    >
       {children}
     </div>
   );

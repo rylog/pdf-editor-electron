@@ -1,4 +1,6 @@
-const { app, BrowserWindow } = require('electron');
+import { savePDF } from './pdfSaver';
+
+const { app, BrowserWindow, ipcMain } = require('electron');
 const path = require('path');
 const isDev = require('electron-is-dev');
 
@@ -32,6 +34,8 @@ app.whenReady().then(() => {
   app.on('activate', function () {
     if (BrowserWindow.getAllWindows().length === 0) createWindow();
   });
+
+  ipcMain.on('save-PDF', savePDF);
 });
 
 app.on('window-all-closed', () => {

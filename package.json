@@ -4,14 +4,15 @@
   "description": "",
   "main": "./dist/main.js",
   "scripts": {
+    "clean": "rimraf dist",
     "build": "cross-env NODE_ENV=production yarn webpack && yarn electron-build",
+    "dev": "concurrently --kill-others \"yarn react:dev\" \"wait-on http://localhost:9000 --silent && electron ./dist/main.js\"",
     "electron-build": "electron-builder",
     "electron:dev": "nodemon",
+    "lint": "eslint src/**/*.{js,jsx,ts,tsx}",
     "react:dev": "webpack-dev-server --config webpack/webpack.config.js --mode=development --hot --client-logging none",
-    "dev": "concurrently --kill-others \"yarn react:dev\" \"wait-on http://localhost:9000 --silent && electron ./dist/main.js\"",
     "start": "cross-env NODE_ENV=development yarn webpack && yarn dev",
-    "webpack": "webpack --config webpack/webpack.config.js",
-    "lint": "eslint src/**/*.{js,jsx,ts,tsx}"
+    "webpack": "yarn clean && webpack --config webpack/webpack.config.js"
   },
   "keywords": [],
   "author": "",
@@ -48,6 +49,7 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.10.0",
+    "rimraf": "^5.0.0",
     "sass": "^1.60.0",
     "sass-loader": "^13.2.2",
     "style-loader": "^3.3.2",
