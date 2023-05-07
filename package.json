@@ -9,7 +9,7 @@
     "dev": "concurrently --kill-others \"yarn react:dev\" \"wait-on http://localhost:9000 --silent && electron ./dist/main.js\"",
     "electron-build": "electron-builder",
     "electron:dev": "nodemon",
-    "lint": "eslint src/**/*.{js,jsx,ts,tsx}",
+    "lint": "eslint .",
     "react:dev": "webpack-dev-server --config webpack/webpack.config.js --mode=development --hot --client-logging none",
     "start": "cross-env NODE_ENV=development yarn webpack && yarn dev",
     "webpack": "yarn clean && webpack --config webpack/webpack.config.js"
