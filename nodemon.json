@@ -1,5 +1,5 @@
 {
-  "watch": ["src/main.ts", "src/electron/*", "dist/*"],
+  "watch": ["electron/*", "dist/*"],
   "exec": "electron ./dist/main.js",
   "ext": "tsx,ts,js"
 }

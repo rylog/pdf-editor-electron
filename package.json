@@ -4,15 +4,14 @@
   "description": "",
   "main": "./dist/main.js",
   "scripts": {
-    "clean": "rimraf dist",
-    "build": "cross-env NODE_ENV=production yarn webpack && yarn electron-build",
-    "dev": "concurrently --kill-others \"yarn react:dev\" \"wait-on http://localhost:9000 --silent && electron ./dist/main.js\"",
-    "electron-build": "electron-builder",
-    "electron:dev": "nodemon",
+    "build": "cross-env NODE_ENV=production yarn webpack-clean-build && electron-builder",
+    "start-react-dev": "concurrently --kill-others \"yarn webpack-dev-server\" \"wait-on http://localhost:9000 --silent && electron ./dist/main.js\"",
+    "start-electron-dev": "concurrently --kill-others \"yarn webpack-watch\" \"yarn webpack-dev-server\" \"wait-on http://localhost:9000 --silent && nodemon\"",
     "lint": "eslint .",
-    "react:dev": "webpack-dev-server --config webpack/webpack.config.js --mode=development --hot --client-logging none",
-    "start": "cross-env NODE_ENV=development yarn webpack && yarn dev",
-    "webpack": "yarn clean && webpack --config webpack/webpack.config.js"
+    "start": "cross-env NODE_ENV=development yarn webpack-clean-build && yarn start-react-dev",
+    "webpack-watch": "webpack --config webpack/webpack.config.js --watch",
+    "webpack-clean-build": "rimraf dist && webpack --config webpack/webpack.config.js",
+    "webpack-dev-server": "webpack-dev-server --config webpack/webpack.react.js --mode=development --hot --client-logging none"
   },
   "keywords": [],
   "author": "",
