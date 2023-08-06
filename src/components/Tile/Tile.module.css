@@ -8,10 +8,11 @@
   box-shadow: 0 2px 1px -1px #0003, 0 1px 1px #00000024, 0 1px 3px #0000001f;
   margin: 8px;
   transition: box-shadow 0.2s;
+  cursor: pointer;
 }
 
-.tile:hover {
+.drag {
   box-shadow: 0 0 3px 1px rgba(0, 0, 0, 0.3), 0 0 0 4px #ff78a0,
-    0 0 20px 4px rgba(0, 0, 0, 0.5);
-  cursor: pointer;
+  0 0 20px 4px rgba(0, 0, 0, 0.5);
+  cursor: move;
 }
