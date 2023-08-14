@@ -1,4 +1,5 @@
-import { savePDF } from './pdfSaver';
+import { PDFFileData, PDFPageReference } from '@/shared/models';
+import { PdfService } from './pdfService';
 
 const { app, BrowserWindow, ipcMain } = require('electron');
 const path = require('path');
@@ -28,6 +29,8 @@ const createWindow = (): void => {
   );
 };
 
+const pdfService = new PdfService();
+
 app.whenReady().then(() => {
   createWindow();
 
@@ -35,7 +38,13 @@ app.whenReady().then(() => {
     if (BrowserWindow.getAllWindows().length === 0) createWindow();
   });
 
-  ipcMain.on('save-PDF', savePDF);
+  ipcMain.on('generate-pdf', (_, pageReferences: PDFPageReference[]) =>
+    pdfService.generatePDF(pageReferences)
+  );
+
+  ipcMain.on('register-pdf', (_, fileData: PDFFileData) =>
+    pdfService.registerPDF(fileData)
+  );
 });
 
 app.on('window-all-closed', () => {

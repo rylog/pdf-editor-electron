@@ -1,15 +1,15 @@
 import { Button } from '@mui/material';
 import { type DecoratedGrid } from '@namecheap/react-muuri/dist/types/interfaces';
-import { type ChangeEvent, useRef } from 'react';
+import { useRef, type ChangeEvent } from 'react';
 
+import { usePDFPages } from '@/components/PDFPagesProvider/PDFPagesProvider';
+import { PDFPageReference } from '@/shared/models';
 import FileInputButton from '../../components/Buttons/FileInputButton';
-import PdfGenerator from '../../services/PdfGenerator';
 import classes from './Editor.module.css';
 import Gallery from './Gallery/Gallery';
-import { usePDFPages } from '@/components/PDFPagesProvider/PDFPagesProvider';
 
 function Editor(): JSX.Element {
-  const { pages, isLoading, error, loadPDFPages, savePDF } = usePDFPages();
+  const { pages, isLoading, error, loadPDFPages, generatePDF } = usePDFPages();
 
   const gridRef = useRef<DecoratedGrid>(null);
 
@@ -24,8 +24,13 @@ function Editor(): JSX.Element {
   };
 
   const onSave = (): void => {
-    savePDF();
-    console.log('gelol');
+    const grid = gridRef.current;
+    if (!grid) {
+      return;
+    }
+    const items = gridRef.current?.getItems();
+    const data = items.map((item) => item.getData() as PDFPageReference);
+    generatePDF(data);
   };
 
   return (

@@ -1,3 +1,5 @@
+import { PDFFileData, PDFPageReference } from '@/shared/models';
+import * as pdfjsLib from 'pdfjs-dist';
 import { PDFPageProxy } from 'pdfjs-dist/types/src/display/api';
 import {
   PropsWithChildren,
@@ -6,7 +8,6 @@ import {
   useContext,
   useState,
 } from 'react';
-import * as pdfjsLib from 'pdfjs-dist';
 
 const cMapUrl =
   process.env.NODE_ENV === 'production'
@@ -29,7 +30,7 @@ interface PDFPagesContextValue {
   isLoading: boolean;
   error: string | undefined;
   loadPDFPages: (files: FileList) => Promise<void>;
-  savePDF: () => void;
+  generatePDF: (pageReferences: PDFPageReference[]) => void;
 }
 
 const PDFPagesContext = createContext<PDFPagesContextValue>({
@@ -37,7 +38,7 @@ const PDFPagesContext = createContext<PDFPagesContextValue>({
   isLoading: false,
   error: undefined,
   loadPDFPages: () => Promise.resolve(),
-  savePDF: () => {},
+  generatePDF: () => {},
 });
 
 const PDFPagesProvider: React.FC<PDFPagesProviderProps> = ({
@@ -48,18 +49,28 @@ const PDFPagesProvider: React.FC<PDFPagesProviderProps> = ({
   const [error] = useState<string | undefined>();
   const [currentFileIndex, setCurrentFileIndex] = useState(0);
 
+  const registerPDF = (fileData: PDFFileData) => {
+    window.electronAPI.registerPDF(fileData);
+  };
+
+  const generatePDF = (pageReferences: PDFPageReference[]) => {
+    window.electronAPI.generatePDF(pageReferences);
+  };
+
   const loadPDFPages = useCallback(
     async (files: FileList) => {
       setIsLoading(true);
       const getPagePromises: Array<Promise<LoadedPDFPage>> = [];
       for (let i = 0; i < files.length; i++) {
         const file = files[i];
+        const fileId = currentFileIndex;
         const arrayBuffer = await file.arrayBuffer();
+        registerPDF({ id: fileId, data: arrayBuffer });
         const pdfDocument = await pdfjsLib.getDocument({
           data: arrayBuffer,
           cMapUrl,
         }).promise;
-        const fileId = currentFileIndex + 1;
+
         for (let j = 1; j <= pdfDocument.numPages; j++) {
           const page = await pdfDocument.getPage(j);
           getPagePromises.push(
@@ -69,7 +80,7 @@ const PDFPagesProvider: React.FC<PDFPagesProviderProps> = ({
             })
           );
         }
-        setCurrentFileIndex(fileId); // Update the current file index
+        setCurrentFileIndex(currentFileIndex + 1); // Update the current file index
       }
       const loadedPages = await Promise.all(getPagePromises);
       setPages((prevPages) => [...prevPages, ...loadedPages]);
@@ -78,13 +89,9 @@ const PDFPagesProvider: React.FC<PDFPagesProviderProps> = ({
     [currentFileIndex]
   );
 
-  const savePDF = () => {
-    window.electronAPI.savePDF();
-  };
-
   return (
     <PDFPagesContext.Provider
-      value={{ pages, isLoading, error, loadPDFPages, savePDF }}
+      value={{ pages, isLoading, error, loadPDFPages, generatePDF }}
     >
       {children}
     </PDFPagesContext.Provider>
@@ -92,9 +99,9 @@ const PDFPagesProvider: React.FC<PDFPagesProviderProps> = ({
 };
 
 const usePDFPages = () => {
-  const { pages, isLoading, error, loadPDFPages, savePDF } =
+  const { pages, isLoading, error, loadPDFPages, generatePDF } =
     useContext(PDFPagesContext);
-  return { pages, isLoading, error, loadPDFPages, savePDF };
+  return { pages, isLoading, error, loadPDFPages, generatePDF };
 };
 
 export { PDFPagesProvider, usePDFPages };
