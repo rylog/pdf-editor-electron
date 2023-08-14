@@ -4,7 +4,7 @@ import { forwardRef, useRef } from 'react';
 
 import PDFCanvas from '@/components/PDFCanvas/PDFCanvas';
 import { LoadedPDFPage } from '@/components/PDFPagesProvider/PDFPagesProvider';
-import Tile from '../../../components/Tile/Tile';
+import Tile, { TileProps } from '../../../components/Tile/Tile';
 import classes from './Gallery.module.css';
 
 interface GalleryProps {
@@ -13,9 +13,27 @@ interface GalleryProps {
 
 const Gallery = forwardRef<DecoratedGrid, GalleryProps>((props, ref) => {
   const scrollElemRef = useRef<HTMLDivElement>(null);
+
+  const children = props.loadedPages.map((loadedPage, index) => (
+    <Tile
+      key={`${loadedPage.fileId}_${loadedPage.page._pageIndex as string}`}
+      index={index + 1}
+      pageReference={{
+        fileId: loadedPage.fileId,
+        pageIndex: loadedPage.page._pageIndex,
+      }}
+    >
+      <PDFCanvas page={loadedPage.page} />
+    </Tile>
+  ));
+
   return (
     <div className={classes.Gallery} ref={scrollElemRef}>
       <MuuriComponent
+        propsToData={(itemProps) => {
+          const { pageReference } = itemProps as TileProps;
+          return pageReference;
+        }}
         ref={ref}
         dragEnabled
         instantLayout
@@ -30,13 +48,7 @@ const Gallery = forwardRef<DecoratedGrid, GalleryProps>((props, ref) => {
           ],
         }}
       >
-        {props.loadedPages.map((loadedPage) => (
-          <Tile
-            key={`${loadedPage.fileId}_${loadedPage.page._pageIndex as string}`}
-          >
-            <PDFCanvas page={loadedPage.page} />
-          </Tile>
-        ))}
+        {children}
       </MuuriComponent>
     </div>
   );
