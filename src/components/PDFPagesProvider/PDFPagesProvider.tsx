@@ -1,4 +1,5 @@
-import { PDFFileData, PDFPageReference } from '@/shared/models';
+import ipcEventsSender from '@/services/ipcEventsSender';
+import { PDFPageReference } from '@/shared/models';
 import * as pdfjsLib from 'pdfjs-dist';
 import { PDFPageProxy } from 'pdfjs-dist/types/src/display/api';
 import {
@@ -49,14 +50,6 @@ const PDFPagesProvider: React.FC<PDFPagesProviderProps> = ({
   const [error] = useState<string | undefined>();
   const [currentFileIndex, setCurrentFileIndex] = useState(0);
 
-  const registerPDF = (fileData: PDFFileData) => {
-    window.electronAPI.registerPDF(fileData);
-  };
-
-  const generatePDF = (pageReferences: PDFPageReference[]) => {
-    window.electronAPI.generatePDF(pageReferences);
-  };
-
   const loadPDFPages = useCallback(
     async (files: FileList) => {
       setIsLoading(true);
@@ -65,7 +58,7 @@ const PDFPagesProvider: React.FC<PDFPagesProviderProps> = ({
         const file = files[i];
         const fileId = currentFileIndex;
         const arrayBuffer = await file.arrayBuffer();
-        registerPDF({ id: fileId, data: arrayBuffer });
+        ipcEventsSender.registerPDF({ id: fileId, data: arrayBuffer });
         const pdfDocument = await pdfjsLib.getDocument({
           data: arrayBuffer,
           cMapUrl,
@@ -91,7 +84,13 @@ const PDFPagesProvider: React.FC<PDFPagesProviderProps> = ({
 
   return (
     <PDFPagesContext.Provider
-      value={{ pages, isLoading, error, loadPDFPages, generatePDF }}
+      value={{
+        pages,
+        isLoading,
+        error,
+        loadPDFPages,
+        generatePDF: ipcEventsSender.generatePDF,
+      }}
     >
       {children}
     </PDFPagesContext.Provider>
