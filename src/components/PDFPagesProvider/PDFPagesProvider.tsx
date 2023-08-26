@@ -1,5 +1,5 @@
 import ipcEventsSender from '@/services/ipcEventsSender';
-import { PDFPageReference } from '@/shared/models';
+import { PDFFileData, PDFPageReference } from '@/shared/models';
 import * as pdfjsLib from 'pdfjs-dist';
 import { PDFPageProxy } from 'pdfjs-dist/types/src/display/api';
 import {
@@ -53,12 +53,16 @@ const PDFPagesProvider: React.FC<PDFPagesProviderProps> = ({
   const loadPDFPages = useCallback(
     async (files: FileList) => {
       setIsLoading(true);
-      const getPagePromises: Array<Promise<LoadedPDFPage>> = [];
+      const getPagePromises = new Array<Promise<LoadedPDFPage>>();
+      const filesData = new Array<PDFFileData>();
       for (let i = 0; i < files.length; i++) {
         const file = files[i];
-        const fileId = currentFileIndex;
+        const fileId = currentFileIndex + i;
         const arrayBuffer = await file.arrayBuffer();
-        ipcEventsSender.registerPDF({ id: fileId, data: arrayBuffer });
+        filesData.push({
+          id: fileId,
+          data: structuredClone(arrayBuffer),
+        });
         const pdfDocument = await pdfjsLib.getDocument({
           data: arrayBuffer,
           cMapUrl,
@@ -73,8 +77,10 @@ const PDFPagesProvider: React.FC<PDFPagesProviderProps> = ({
             })
           );
         }
-        setCurrentFileIndex(currentFileIndex + 1); // Update the current file index
+        setCurrentFileIndex(currentFileIndex + i); // Update the current file index
       }
+      console.log(filesData);
+      ipcEventsSender.registerPDFFiles(filesData);
       const loadedPages = await Promise.all(getPagePromises);
       setPages((prevPages) => [...prevPages, ...loadedPages]);
       setIsLoading(false);

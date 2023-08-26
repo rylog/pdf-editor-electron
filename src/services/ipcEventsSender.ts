@@ -1,8 +1,8 @@
 import { PDFFileData, PDFPageReference } from '@/shared/models';
 
 const ipcEventSender = {
-  registerPDF: (fileData: PDFFileData) => {
-    window.electronAPI.registerPDF(fileData);
+  registerPDFFiles: (filesData: PDFFileData[]) => {
+    window.electronAPI.registerPDFFiles(filesData);
   },
 
   generatePDF: (pageReferences: PDFPageReference[]) => {

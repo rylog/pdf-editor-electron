@@ -10,7 +10,7 @@ export function setupIpcEventsHandler() {
     pdfService.generatePDF(pageReferences)
   );
 
-  ipcMain.on(ipcEvents.REGISTER_PDF, (_, fileData: PDFFileData) =>
-    pdfService.registerPDF(fileData)
+  ipcMain.on(ipcEvents.REGISTER_PDF_FILES, (_, filesData: PDFFileData[]) =>
+    pdfService.registerPDFFiles(filesData)
   );
 }

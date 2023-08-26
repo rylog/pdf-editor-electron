@@ -1,11 +1,14 @@
+import { IElectronAPI } from '@/electron';
 import { PDFFileData, PDFPageReference } from '@/shared/models';
 import ipcEvents from './ipc/ipcEvents';
 
 const { contextBridge, ipcRenderer } = require('electron');
 
-contextBridge.exposeInMainWorld('electronAPI', {
+const electronAPI: IElectronAPI = {
   generatePDF: (pageReference: PDFPageReference[]) =>
     ipcRenderer.send(ipcEvents.GENERATE_PDF, pageReference),
-  registerPDF: (fileData: PDFFileData) =>
-    ipcRenderer.send(ipcEvents.REGISTER_PDF, fileData),
-});
+  registerPDFFiles: (filesData: PDFFileData[]) =>
+    ipcRenderer.send(ipcEvents.REGISTER_PDF_FILES, filesData),
+};
+
+contextBridge.exposeInMainWorld('electronAPI', electronAPI);

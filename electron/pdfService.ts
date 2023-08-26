@@ -40,8 +40,11 @@ export class PdfService {
     }
   }
 
-  async registerPDF(fileData: PDFFileData): Promise<void> {
-    const document = await PDFDocument.load(fileData.data);
-    this.pdfDocumentMap.set(fileData.id, document);
+  async registerPDFFiles(filesData: PDFFileData[]): Promise<void> {
+    console.log('registering');
+    for (const fileData of filesData) {
+      const document = await PDFDocument.load(fileData.data);
+      this.pdfDocumentMap.set(fileData.id, document);
+    }
   }
 }
