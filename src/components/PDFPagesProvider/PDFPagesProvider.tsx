@@ -78,11 +78,10 @@ const PDFPagesProvider: React.FC<PDFPagesProviderProps> = ({
           );
         }
       }
-      setCurrentFileIndex(currentFileIndex + files.length); // Update the current file index
-      console.log(filesData);
-      ipcEventsSender.registerPDFFiles(filesData);
       const loadedPages = await Promise.all(getPagePromises);
       setPages((prevPages) => [...prevPages, ...loadedPages]);
+      setCurrentFileIndex((prev) => prev + files.length); // Update the current file index
+      ipcEventsSender.registerPDFFiles(filesData);
       setIsLoading(false);
     },
     [currentFileIndex]

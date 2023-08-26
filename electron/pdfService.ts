@@ -7,6 +7,7 @@ export class PdfService {
   private pdfDocumentMap = new Map<number, PDFDocument>();
 
   async generatePDF(pageReferences: PDFPageReference[]) {
+    console.log('generating');
     const pdfDoc = await PDFDocument.create();
     for (const { fileId, pageIndex } of pageReferences) {
       const sourceDocument = this.pdfDocumentMap.get(fileId);
@@ -17,7 +18,7 @@ export class PdfService {
         pdfDoc.addPage(copiedPage[0]);
       }
     }
-    console.log('here');
+
     // Serialize the PDF document to ArrayBuffer
     const pdfBytes = await pdfDoc.save();
 

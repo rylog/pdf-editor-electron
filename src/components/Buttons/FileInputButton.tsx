@@ -26,6 +26,7 @@ function FileInputButton(
       <input
         className={classes.fileInput}
         type="file"
+        accept="application/pdf"
         ref={hiddenFileInputRef}
         multiple
         onChange={onFileChange}
