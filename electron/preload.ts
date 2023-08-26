@@ -1,5 +1,5 @@
 import { PDFFileData, PDFPageReference } from '@/shared/models';
-import ipcEvents from './ipcEvents';
+import ipcEvents from './ipc/ipcEvents';
 
 const { contextBridge, ipcRenderer } = require('electron');
 

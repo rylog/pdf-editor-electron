@@ -1,5 +1,4 @@
-import { PDFFileData, PDFPageReference } from '@/shared/models';
-import ipcEvents from './ipcEvents';
+import { setupIpcEventsHandler } from './ipcEventsHandler';
 import { PdfService } from './pdfService';
 
 const { app, BrowserWindow, ipcMain } = require('electron');
@@ -34,18 +33,10 @@ const pdfService = new PdfService();
 
 app.whenReady().then(() => {
   createWindow();
-
+  setupIpcEventsHandler();
   app.on('activate', function () {
     if (BrowserWindow.getAllWindows().length === 0) createWindow();
   });
-
-  ipcMain.on(ipcEvents.GENERATE_PDF, (_, pageReferences: PDFPageReference[]) =>
-    pdfService.generatePDF(pageReferences)
-  );
-
-  ipcMain.on(ipcEvents.REGISTER_PDF, (_, fileData: PDFFileData) =>
-    pdfService.registerPDF(fileData)
-  );
 });
 
 app.on('window-all-closed', () => {
