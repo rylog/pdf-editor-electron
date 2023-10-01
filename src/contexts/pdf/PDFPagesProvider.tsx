@@ -1,14 +1,9 @@
 import ipcEventsSender from '@/services/ipcEventsSender';
-import { PDFFileData, PDFPageReference } from '@/shared/models';
+import { PDFFileData } from '@/shared/models';
 import * as pdfjsLib from 'pdfjs-dist';
 import { PDFPageProxy } from 'pdfjs-dist/types/src/display/api';
-import {
-  PropsWithChildren,
-  createContext,
-  useCallback,
-  useContext,
-  useState,
-} from 'react';
+import { FC, PropsWithChildren, useCallback, useRef, useState } from 'react';
+import PDFPagesContext from './PDFPagesContext';
 
 const cMapUrl =
   process.env.NODE_ENV === 'production'
@@ -22,33 +17,18 @@ interface PDFPagesProviderProps {
 }
 
 export interface LoadedPDFPage {
+  id: string;
   page: PDFPageProxy;
   fileId: number;
 }
 
-interface PDFPagesContextValue {
-  pages: LoadedPDFPage[];
-  isLoading: boolean;
-  error: string | undefined;
-  loadPDFPages: (files: FileList) => Promise<void>;
-  generatePDF: (pageReferences: PDFPageReference[]) => void;
-}
-
-const PDFPagesContext = createContext<PDFPagesContextValue>({
-  pages: [],
-  isLoading: false,
-  error: undefined,
-  loadPDFPages: () => Promise.resolve(),
-  generatePDF: () => {},
-});
-
-const PDFPagesProvider: React.FC<PDFPagesProviderProps> = ({
+const PDFPagesProvider: FC<PDFPagesProviderProps> = ({
   children,
 }: PropsWithChildren<unknown>) => {
   const [pages, setPages] = useState<LoadedPDFPage[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error] = useState<string | undefined>();
-  const [currentFileIndex, setCurrentFileIndex] = useState(0);
+  const currentFileIndex = useRef(0);
 
   const loadPDFPages = useCallback(
     async (files: FileList) => {
@@ -57,7 +37,7 @@ const PDFPagesProvider: React.FC<PDFPagesProviderProps> = ({
       const filesData = new Array<PDFFileData>();
       for (let i = 0; i < files.length; i++) {
         const file = files[i];
-        const fileId = currentFileIndex + i;
+        const fileId = currentFileIndex.current;
         const arrayBuffer = await file.arrayBuffer();
         filesData.push({
           id: fileId,
@@ -72,16 +52,17 @@ const PDFPagesProvider: React.FC<PDFPagesProviderProps> = ({
           const page = await pdfDocument.getPage(j);
           getPagePromises.push(
             Promise.resolve({
+              id: `${fileId}_${page._pageIndex}`,
               page,
               fileId,
             })
           );
         }
+        currentFileIndex.current++;
       }
       const loadedPages = await Promise.all(getPagePromises);
       setPages((prevPages) => [...prevPages, ...loadedPages]);
-      setCurrentFileIndex((prev) => prev + files.length); // Update the current file index
-      ipcEventsSender.registerPDFFiles(filesData);
+      await ipcEventsSender.registerPDFFiles(filesData);
       setIsLoading(false);
     },
     [currentFileIndex]
@@ -93,6 +74,7 @@ const PDFPagesProvider: React.FC<PDFPagesProviderProps> = ({
         pages,
         isLoading,
         error,
+        setPages,
         loadPDFPages,
         generatePDF: ipcEventsSender.generatePDF,
       }}
@@ -102,10 +84,4 @@ const PDFPagesProvider: React.FC<PDFPagesProviderProps> = ({
   );
 };
 
-const usePDFPages = () => {
-  const { pages, isLoading, error, loadPDFPages, generatePDF } =
-    useContext(PDFPagesContext);
-  return { pages, isLoading, error, loadPDFPages, generatePDF };
-};
-
-export { PDFPagesProvider, usePDFPages };
+export default PDFPagesProvider;
