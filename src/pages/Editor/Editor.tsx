@@ -1,15 +1,17 @@
-import { Button } from '@mui/material';
+import { Button, Paper } from '@mui/material';
 import { type DecoratedGrid } from '@namecheap/react-muuri/dist/types/interfaces';
 import { useRef, type ChangeEvent } from 'react';
 
-import { usePDFPages } from '@/components/PDFPagesProvider/PDFPagesProvider';
+import usePDFPages from '@/contexts/pdf/usePDFPages';
 import { PDFPageReference } from '@/shared/models';
+import AddIcon from '@mui/icons-material/Add';
+import SaveIcon from '@mui/icons-material/Save';
 import FileInputButton from '../../components/Buttons/FileInputButton';
 import classes from './Editor.module.css';
 import Gallery from './Gallery/Gallery';
 
 function Editor(): JSX.Element {
-  const { pages, isLoading, error, loadPDFPages, generatePDF } = usePDFPages();
+  const { error, loadPDFPages, generatePDF } = usePDFPages();
 
   const gridRef = useRef<DecoratedGrid>(null);
 
@@ -34,11 +36,27 @@ function Editor(): JSX.Element {
   };
 
   return (
-    <div className={classes.Editor}>
-      <FileInputButton onFileChange={addFiles}>Add</FileInputButton>
-      <Button onClick={onSave}>Save</Button>
-      <Gallery ref={gridRef} loadedPages={pages} />
-    </div>
+    <Paper className={classes.Editor}>
+      <div className={classes.ActionButtons}>
+        <FileInputButton
+          variant="outlined"
+          onFileChange={addFiles}
+          startIcon={<AddIcon />}
+        >
+          Add
+        </FileInputButton>
+        <Button
+          sx={{ ml: '4px' }}
+          variant="contained"
+          disableElevation
+          startIcon={<SaveIcon />}
+          onClick={onSave}
+        >
+          Save
+        </Button>
+      </div>
+      <Gallery ref={gridRef} />
+    </Paper>
   );
 }
 

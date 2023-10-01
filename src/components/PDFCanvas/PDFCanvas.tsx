@@ -1,5 +1,5 @@
 import { PDFPageProxy } from 'pdfjs-dist/types/src/display/api';
-import { memo, useCallback, useEffect, useRef } from 'react';
+import { CSSProperties, memo, useCallback, useEffect, useRef } from 'react';
 
 const calculateScale = (height: number, width: number): number => {
   let scale = 1;
@@ -56,13 +56,15 @@ const useRenderPageOnCanvas = (
 
 interface PDFCanvasProps {
   page: PDFPageProxy;
+  style?: CSSProperties;
+  rotate?: () => void;
 }
 
 const PDFCanvas = memo((props: PDFCanvasProps): JSX.Element => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const { page } = props;
+  const { page, style } = props;
   useRenderPageOnCanvas(canvasRef, page);
-  return <canvas ref={canvasRef} />;
+  return <canvas ref={canvasRef} style={style} />;
 });
 
 PDFCanvas.displayName = 'PDFCanvas';

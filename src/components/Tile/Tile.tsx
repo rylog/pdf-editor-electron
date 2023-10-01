@@ -9,6 +9,7 @@ export interface TileProps {
   index: number;
   pageReference: PDFPageReference;
   children: ReactNode;
+  remove?: () => void;
 }
 
 function Tile(props: TileProps): JSX.Element {
@@ -20,13 +21,12 @@ function Tile(props: TileProps): JSX.Element {
 
   return (
     <div className={className}>
-      <div
-        className={classes.content}
-        style={{ background: theme.palette.background.paper }}
-      >
-        {children}
+      <div className={classes.contentContainer}>
+        <div className={classes.content}>{children}</div>
       </div>
-      <div>{props.index}</div>
+      <div className={classes.footer}>
+        <span>{props.index}</span>
+      </div>
     </div>
   );
 }
