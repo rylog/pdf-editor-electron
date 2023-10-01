@@ -1,7 +1,7 @@
 import { PDFFileData, PDFPageReference } from '@/shared/models';
 import { ipcMain } from 'electron';
-import ipcEvents from './ipc/ipcEvents';
-import { PdfService } from './pdfService';
+import { PdfService } from '../pdfService';
+import ipcEvents from './ipcEvents';
 
 const pdfService = new PdfService();
 
@@ -10,7 +10,11 @@ export function setupIpcEventsHandler() {
     pdfService.generatePDF(pageReferences)
   );
 
-  ipcMain.on(ipcEvents.REGISTER_PDF_FILES, (_, filesData: PDFFileData[]) =>
-    pdfService.registerPDFFiles(filesData)
+  ipcMain.on(
+    ipcEvents.REGISTER_PDF_FILES,
+    (event, filesData: PDFFileData[]) => {
+      pdfService.registerPDFFiles(filesData);
+      event.sender.send(ipcEvents.REGISTER_PDF_FILES_COMPLETED);
+    }
   );
 }

@@ -1,7 +1,6 @@
-import { setupIpcEventsHandler } from './ipcEventsHandler';
-import { PdfService } from './pdfService';
+import { setupIpcEventsHandler } from './ipc/ipcEventsHandler';
 
-const { app, BrowserWindow, ipcMain } = require('electron');
+const { app, BrowserWindow } = require('electron');
 const path = require('path');
 const isDev = require('electron-is-dev');
 
@@ -28,8 +27,6 @@ const createWindow = (): void => {
       : `file://${path.join(__dirname, '../dist/index.html')}`
   );
 };
-
-const pdfService = new PdfService();
 
 app.whenReady().then(() => {
   createWindow();
