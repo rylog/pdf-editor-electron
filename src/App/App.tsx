@@ -1,13 +1,13 @@
-import './App.module.css';
 import { Components, CssBaseline } from '@mui/material';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { ThemeProvider, createTheme } from '@mui/material/styles';
 import { TypographyOptions } from '@mui/material/styles/createTypography';
-import { MemoryRouter as Router, Route, Routes } from 'react-router-dom';
+import { Route, MemoryRouter as Router, Routes } from 'react-router-dom';
+import './App.module.css';
 
+import PDFPagesProvider from '@/contexts/pdf/PDFPagesProvider';
 import TitleBar from '../components/TitleBar/TitleBar';
 import Editor from '../pages/Editor/Editor';
 import Home from '../pages/Home/Home';
-import { PDFPagesProvider } from '@/components/PDFPagesProvider/PDFPagesProvider';
 
 const componentOptions: Components = {
   MuiButton: {
@@ -35,7 +35,7 @@ const themeLight = createTheme({
   components: componentOptions,
   palette: {
     background: {
-      default: '#f5f9fd',
+      default: '#ffffff',
       paper: '#ffffff',
     },
     primary: {

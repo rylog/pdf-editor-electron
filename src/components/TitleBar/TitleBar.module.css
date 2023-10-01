@@ -1,7 +1,6 @@
 .TitleBar {
   width: 100%;
   height: 32px;
-  background: #ffffff;
   -webkit-user-select: none;
   user-select: none;
   -webkit-app-region: drag;
