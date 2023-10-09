@@ -18,12 +18,28 @@
   background: rgba(247,249,252, 0.5);
 }
 
+.contentContainer:hover .actions{
+  visibility: visible;
+}
+
+.actions{
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  right:0px;
+  visibility: hidden;
+  z-index: 3;
+}
+
+.actionsDrag{
+  visibility: hidden !important;
+}
+
 .content {
   display: flex;
   border-radius: 4px;
   overflow: hidden;
   justify-content: center;
-  margin: auto;
   width: 100%;
   transition: box-shadow 0.2s;
   z-index: 2;
@@ -37,6 +53,7 @@
   align-items: center;
   background-color: white;
   border-top: 1px solid #ededed;
+  user-select: none;
 }
 
 .drag {

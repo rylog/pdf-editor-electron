@@ -1,4 +1,4 @@
-.Editor {
+.editor {
   display: flex;
   flex-direction: column;
   width: 100%;
@@ -9,8 +9,28 @@
   align-items: center;
 }
 
-.ActionButtons{
-  align-self:flex-end;
+.header{
+  display: flex;  
+  width: 100%;
   padding: 4px;
   padding-bottom: 8px;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.modes{
+  margin: 0 auto;
+}
+
+.actions{
+  display: flex;
+  width: 100%;
+}
+
+.actionButtons{
+  margin-left: auto;
+}
+
+.modifiers{
+  display: flex;
 }

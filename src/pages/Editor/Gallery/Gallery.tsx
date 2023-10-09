@@ -1,49 +1,82 @@
+import PDFCanvas from '@/components/PDFCanvas/PDFCanvas';
+import { Action } from '@/components/Tile/Actions';
+import usePDFPages from '@/contexts/pdf/usePDFPages';
+import DeleteIcon from '@mui/icons-material/Delete';
+import { CircularProgress } from '@mui/material';
 import { AutoScroller, MuuriComponent } from '@namecheap/react-muuri';
 import { type DecoratedGrid } from '@namecheap/react-muuri/dist/types/interfaces';
 import { forwardRef, useRef } from 'react';
-
-import PDFCanvas from '@/components/PDFCanvas/PDFCanvas';
-import usePDFPages from '@/contexts/pdf/usePDFPages';
-import { Button, CircularProgress } from '@mui/material';
 import Tile, { TileProps } from '../../../components/Tile/Tile';
 import classes from './Gallery.module.css';
+import RotateRightTwoTone from '@mui/icons-material/RotateRightTwoTone';
 
 const Gallery = forwardRef<DecoratedGrid>((_, ref) => {
   const { pages, isLoading, setPages } = usePDFPages();
   const scrollElemRef = useRef<HTMLDivElement>(null);
   const draggable = 'draggable';
 
-  const removeTile = (id: string) => {
+  const removePage = (id: string) => {
     setPages(pages.filter((item) => item.id !== id));
   };
 
-  const handleRemoveTileClick = (id: string) => {
+  const handleDeleteClick = (id: string) => {
     return function () {
-      removeTile(id);
+      removePage(id);
     };
   };
 
-  const children = pages.map((loadedPage, index) => (
-    <Tile
-      key={loadedPage.id}
-      index={index + 1}
-      pageReference={{
-        fileId: loadedPage.fileId,
-        pageIndex: loadedPage.page._pageIndex,
-        rotation: 0,
-      }}
-    >
-      <Button
-        className={classes.TileAction}
-        onClick={handleRemoveTileClick(loadedPage.id)}
+  const rotatePage = (id: string) => {
+    const pageToUpdate = pages.find((page) => page.id === id);
+
+    if (pageToUpdate) {
+      pageToUpdate.rotation += 90;
+      pageToUpdate.rotation %= 360;
+      setPages([...pages]); // Make sure to create a new array to trigger a state update
+    }
+  };
+
+  const handleRotateClick = (id: string) => {
+    return function () {
+      rotatePage(id);
+    };
+  };
+
+  const tiles = pages.map((loadedPage, index) => {
+    const actions: Action[] = [
+      {
+        onClick: handleDeleteClick(loadedPage.id),
+        icon: <DeleteIcon />,
+      },
+      {
+        onClick: handleRotateClick(loadedPage.id),
+        icon: <RotateRightTwoTone />,
+      },
+    ];
+
+    return (
+      <Tile
+        key={loadedPage.id}
+        index={index + 1}
+        pageReference={{
+          fileId: loadedPage.fileId,
+          pageIndex: loadedPage.page._pageIndex,
+          rotation: loadedPage.rotation,
+        }}
+        actions={actions}
       >
-        X
-      </Button>
-      <div className={draggable}>
-        <PDFCanvas page={loadedPage.page} style={{ zIndex: 1 }} />
-      </div>
-    </Tile>
-  ));
+        <div style={{ display: 'flex' }} className={draggable}>
+          <PDFCanvas
+            rotation={loadedPage.rotation}
+            page={loadedPage.page}
+            style={{
+              zIndex: 1,
+              margin: 'auto',
+            }}
+          />
+        </div>
+      </Tile>
+    );
+  });
 
   return (
     <div className={classes.Gallery} ref={scrollElemRef}>
@@ -51,6 +84,12 @@ const Gallery = forwardRef<DecoratedGrid>((_, ref) => {
       <div style={{ visibility: isLoading ? 'hidden' : 'visible' }}>
         <MuuriComponent
           dragHandle={`.${draggable}`}
+          dragPlaceholder={{
+            enabled: true,
+            createElement: function (item: any) {
+              return item.getElement().cloneNode(true);
+            },
+          }}
           propsToData={(itemProps) => {
             const { pageReference } = itemProps as TileProps;
             return pageReference;
@@ -69,7 +108,7 @@ const Gallery = forwardRef<DecoratedGrid>((_, ref) => {
             ],
           }}
         >
-          {children}
+          {tiles}
         </MuuriComponent>
       </div>
     </div>

@@ -15,6 +15,15 @@
   margin-top: -20px;
 }
 
+.TileContent{
+  
+}
+
+.TileActions{
+  position: absolute;
+  right: 0px;
+}
+
 ::-webkit-scrollbar {
   width: 16px;
 }

@@ -20,6 +20,7 @@ export interface LoadedPDFPage {
   id: string;
   page: PDFPageProxy;
   fileId: number;
+  rotation: number;
 }
 
 const PDFPagesProvider: FC<PDFPagesProviderProps> = ({
@@ -55,6 +56,7 @@ const PDFPagesProvider: FC<PDFPagesProviderProps> = ({
               id: `${fileId}_${page._pageIndex}`,
               page,
               fileId,
+              rotation: 0,
             })
           );
         }
