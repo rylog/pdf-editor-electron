@@ -9,7 +9,7 @@ import {
   DecoratedItem,
   type DecoratedGrid,
 } from '@namecheap/react-muuri/dist/types/interfaces';
-import { forwardRef, useRef } from 'react';
+import { useRef } from 'react';
 import Tile, { TileProps } from '../../../components/Tile/Tile';
 import classes from './Gallery.module.css';
 
@@ -17,7 +17,10 @@ interface GridItem extends DecoratedItem {
   getElement: () => HTMLElement;
 }
 
-const Gallery = forwardRef<DecoratedGrid>((_, ref) => {
+interface GridProps {
+  gridRef: React.MutableRefObject<DecoratedGrid | null>;
+}
+const Gallery = (props: GridProps) => {
   const { pages, isLoading, setPages } = usePDFPages();
   const scrollElemRef = useRef<HTMLDivElement>(null);
   const draggable = 'draggable';
@@ -108,7 +111,7 @@ const Gallery = forwardRef<DecoratedGrid>((_, ref) => {
             const { pageReference } = itemProps as TileProps;
             return pageReference;
           }}
-          ref={ref}
+          ref={props.gridRef}
           dragEnabled
           instantLayout
           dragContainer={document.body}
@@ -127,8 +130,6 @@ const Gallery = forwardRef<DecoratedGrid>((_, ref) => {
       </div>
     </div>
   );
-});
-
-Gallery.displayName = 'Gallery';
+};
 
 export default Gallery;

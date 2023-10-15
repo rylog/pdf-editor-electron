@@ -1,6 +1,7 @@
 import { rotateDegrees } from 'pdf-lib';
-import { PDFPageProxy } from 'pdfjs-dist/types/src/display/api';
-import { CSSProperties, memo, useCallback, useEffect, useRef } from 'react';
+import { RenderingCancelledException } from 'pdfjs-dist';
+import { PDFPageProxy, RenderTask } from 'pdfjs-dist/types/src/display/api';
+import { CSSProperties, memo, useEffect, useRef } from 'react';
 
 const calculateScale = (height: number, width: number): number => {
   let scale = 1;
@@ -20,40 +21,63 @@ const useRenderPageOnCanvas = (
   pageToRender: PDFPageProxy,
   rotation: number
 ): void => {
-  const renderPageOnCanvas = useCallback(async (): Promise<void> => {
-    const pageProxy = pageToRender;
-    const canvas = canvasRef.current;
+  useEffect(() => {
+    let renderTask: RenderTask | null = null;
 
-    if (!pageProxy || !canvas) {
-      return;
-    }
+    const renderPageOnCanvas = async (): Promise<void> => {
+      // Cancel previous rendering task if it exists
+      if (renderTask) {
+        renderTask.cancel();
+      }
 
-    const viewport = pageProxy.getViewport({ scale: 1 });
-    const { height, width } = viewport;
+      const pageProxy = pageToRender;
+      const canvas = canvasRef.current;
 
-    const scale = calculateScale(height, width);
-    const scaledViewport = pageProxy.getViewport({ scale, rotation });
+      if (!pageProxy || !canvas) {
+        return;
+      }
 
-    canvas.width = scaledViewport.width;
-    canvas.height = scaledViewport.height;
+      const viewport = pageProxy.getViewport({ scale: 1 });
+      const { height, width } = viewport;
 
-    const ctx = canvas.getContext('2d');
+      const scale = calculateScale(height, width);
+      const scaledViewport = pageProxy.getViewport({ scale, rotation });
 
-    if (!ctx) {
-      return;
-    }
-    // Draw the page at the center of the rotated canvas
-    const renderCtx = {
-      canvasContext: ctx,
-      viewport: scaledViewport,
+      canvas.width = scaledViewport.width;
+      canvas.height = scaledViewport.height;
+
+      const ctx = canvas.getContext('2d');
+
+      if (!ctx) {
+        return;
+      }
+      // Draw the page at the center of the rotated canvas
+      const renderCtx = {
+        canvasContext: ctx,
+        viewport: scaledViewport,
+      };
+
+      // Start a new rendering task
+      renderTask = pageProxy.render(renderCtx, rotateDegrees(rotation));
+      try {
+        await renderTask.promise;
+      } catch (error) {
+        if (!(error instanceof RenderingCancelledException)) {
+          throw error; // Rethrow other errors
+        }
+      }
     };
 
-    await pageProxy.render(renderCtx, rotateDegrees(rotation)).promise;
-  }, [canvasRef, pageToRender, rotation]);
-
-  useEffect(() => {
+    // Call the rendering function
     renderPageOnCanvas();
-  }, [renderPageOnCanvas]);
+
+    // Cleanup: Cancel the rendering task when the component is unmounted or when the dependencies change
+    return () => {
+      if (renderTask) {
+        renderTask.cancel();
+      }
+    };
+  }, [canvasRef, pageToRender, rotation]);
 };
 
 interface PDFCanvasProps {

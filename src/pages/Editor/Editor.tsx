@@ -70,7 +70,7 @@ function Editor(): JSX.Element {
           </div>
         </div>
       </div>
-      <Gallery ref={gridRef} />
+      <Gallery gridRef={gridRef} />
     </Paper>
   );
 }
