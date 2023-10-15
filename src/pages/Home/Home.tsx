@@ -1,9 +1,8 @@
+import usePDFPages from '@/contexts/pdf/usePDFPages';
 import Folder from '@mui/icons-material/Folder';
-import { IconButton, Paper } from '@mui/material';
+import { Paper } from '@mui/material';
 import { ChangeEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
-
-import usePDFPages from '@/contexts/pdf/usePDFPages';
 import FileInputButton from '../../components/Buttons/FileInputButton';
 import classes from './Home.module.css';
 

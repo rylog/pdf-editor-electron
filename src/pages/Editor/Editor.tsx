@@ -37,7 +37,10 @@ function Editor(): JSX.Element {
   };
 
   return (
-    <Paper className={classes.editor}>
+    <Paper
+      style={{ background: theme.palette.editor.main }}
+      className={classes.editor}
+    >
       <div className={classes.header}>
         <div className={classes.actions}>
           <div className={classes.modifiers}></div>

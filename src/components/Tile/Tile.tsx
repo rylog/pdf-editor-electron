@@ -28,7 +28,7 @@ function Tile(props: TileProps): JSX.Element {
   return (
     <div className={className}>
       <div
-        style={{ background: theme.palette.glass.main }}
+        style={{ background: theme.palette.tile.content }}
         className={classes.contentContainer}
       >
         {actions && (
@@ -38,7 +38,10 @@ function Tile(props: TileProps): JSX.Element {
         )}
         <div className={classes.content}>{children}</div>
       </div>
-      <Paper className={classes.footer}>
+      <Paper
+        style={{ background: theme.palette.tile.footer }}
+        className={classes.footer}
+      >
         <span>{props.index}</span>
       </Paper>
     </div>

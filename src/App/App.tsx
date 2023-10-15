@@ -11,10 +11,22 @@ import './App.module.css';
 
 declare module '@mui/material/styles/createPalette' {
   interface Palette {
-    glass: PaletteColor;
+    tile: {
+      content: string;
+      footer: string;
+    };
+    editor: {
+      main: string;
+    };
   }
   interface PaletteOptions {
-    glass?: PaletteColorOptions;
+    tile?: {
+      content: string;
+      footer: string;
+    };
+    editor: {
+      main: string;
+    };
   }
 }
 
@@ -47,8 +59,12 @@ const themeLight = createTheme({
       default: '#ffffff',
       paper: '#ffffff',
     },
-    glass: {
-      main: 'rgba(247,249,252, 0.5)',
+    editor: {
+      main: '#ffffff',
+    },
+    tile: {
+      content: 'rgba(247,249,252, 0.5)',
+      footer: '#ffffff',
     },
     primary: {
       main: '#4D6CFA',
@@ -65,8 +81,12 @@ const themeDark = createTheme({
       default: '#18191a',
       paper: '#18191a',
     },
-    glass: {
-      main: 'rgba(247,249,252, 0.5)',
+    editor: {
+      main: '#1a1a1a',
+    },
+    tile: {
+      content: 'rgba(74, 74, 74, 0.5)',
+      footer: '#1d1d1d',
     },
     primary: {
       main: '#343d96',
