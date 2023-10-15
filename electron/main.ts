@@ -1,4 +1,6 @@
-import { setupIpcEventsHandler } from './ipc/ipcEventsHandler';
+import 'reflect-metadata';
+import { container } from 'tsyringe';
+import IpcEventsHandler from './ipc/ipcEventsHandler';
 
 const { app, BrowserWindow } = require('electron');
 const path = require('path');
@@ -13,12 +15,12 @@ const createWindow = (): void => {
       contextIsolation: true,
       preload: path.join(__dirname, 'preload.js'),
     },
-    // autoHideMenuBar: true,
-    // titleBarStyle: 'hidden',
-    // titleBarOverlay: {
-    //   height: 32,
-    //   color: '#ffffff',
-    // },
+    autoHideMenuBar: true,
+    titleBarStyle: 'hidden',
+    titleBarOverlay: {
+      height: 32,
+      color: '#ffffff',
+    },
   });
 
   mainWindow.loadURL(
@@ -30,10 +32,12 @@ const createWindow = (): void => {
 
 app.whenReady().then(() => {
   createWindow();
-  setupIpcEventsHandler();
   app.on('activate', function () {
     if (BrowserWindow.getAllWindows().length === 0) createWindow();
   });
+  // Instantiate the IpcEventsHandler and set up IPC event handlers
+  const ipcEventsHandler = container.resolve(IpcEventsHandler);
+  ipcEventsHandler.setupIpcEventsHandler();
 });
 
 app.on('window-all-closed', () => {

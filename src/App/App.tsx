@@ -1,13 +1,22 @@
+import useColorMode from '@/contexts/colorMode/useColorMode';
+import PDFPagesProvider from '@/contexts/pdf/PDFPagesProvider';
 import { Components, CssBaseline } from '@mui/material';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import { TypographyOptions } from '@mui/material/styles/createTypography';
 import { Route, MemoryRouter as Router, Routes } from 'react-router-dom';
-import './App.module.css';
-
-import PDFPagesProvider from '@/contexts/pdf/PDFPagesProvider';
 import TitleBar from '../components/TitleBar/TitleBar';
 import Editor from '../pages/Editor/Editor';
 import Home from '../pages/Home/Home';
+import './App.module.css';
+
+declare module '@mui/material/styles/createPalette' {
+  interface Palette {
+    glass: PaletteColor;
+  }
+  interface PaletteOptions {
+    glass?: PaletteColorOptions;
+  }
+}
 
 const componentOptions: Components = {
   MuiButton: {
@@ -38,8 +47,11 @@ const themeLight = createTheme({
       default: '#ffffff',
       paper: '#ffffff',
     },
+    glass: {
+      main: 'rgba(247,249,252, 0.5)',
+    },
     primary: {
-      main: '#428dfd',
+      main: '#4D6CFA',
     },
   },
   typography: typographyOptions,
@@ -49,16 +61,32 @@ const themeDark = createTheme({
   components: componentOptions,
   palette: {
     mode: 'dark',
+    background: {
+      default: '#18191a',
+      paper: '#18191a',
+    },
+    glass: {
+      main: 'rgba(247,249,252, 0.5)',
+    },
+    primary: {
+      main: '#343d96',
+    },
+    secondary: {
+      main: '#bdc2ff',
+    },
     text: {
-      primary: '#ffffff',
+      primary: '#ededed',
     },
   },
   typography: typographyOptions,
 });
 
-export default function App(): JSX.Element {
+function App(): JSX.Element {
+  const { mode } = useColorMode();
+  const theme = mode === 'light' ? themeLight : themeDark;
+
   return (
-    <ThemeProvider theme={themeLight}>
+    <ThemeProvider theme={theme}>
       <CssBaseline />
       <TitleBar />
       <Router>
@@ -72,3 +100,5 @@ export default function App(): JSX.Element {
     </ThemeProvider>
   );
 }
+
+export default App;

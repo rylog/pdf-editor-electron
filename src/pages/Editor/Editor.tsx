@@ -1,9 +1,8 @@
-import MenuSelect from '@/components/ModeSelect/ModeSelect';
 import usePDFPages from '@/contexts/pdf/usePDFPages';
 import { PDFPageReference } from '@/shared/models';
 import AddIcon from '@mui/icons-material/Add';
-import SaveAltRoundedIcon from '@mui/icons-material/SaveAltRounded';
-import { Button, IconButton, Paper } from '@mui/material';
+import { Button, Paper } from '@mui/material';
+import { useTheme } from '@mui/material/styles';
 import { type DecoratedGrid } from '@namecheap/react-muuri/dist/types/interfaces';
 import { useRef, type ChangeEvent } from 'react';
 import FileInputButton from '../../components/Buttons/FileInputButton';
@@ -14,6 +13,8 @@ function Editor(): JSX.Element {
   const { error, loadPDFPages, generatePDF } = usePDFPages();
 
   const gridRef = useRef<DecoratedGrid>(null);
+  const theme = useTheme();
+  const isLightMode = theme.palette.mode === 'light';
 
   if (error != null) {
     console.error(error);
@@ -42,15 +43,24 @@ function Editor(): JSX.Element {
           <div className={classes.modifiers}></div>
           <div className={classes.actionButtons}>
             <FileInputButton
-              variant="outlined"
+              color={isLightMode ? 'primary' : 'secondary'}
+              variant={isLightMode ? 'outlined' : 'text'}
               onFileChange={addFiles}
               startIcon={<AddIcon />}
-              sx={{ height: '42px', padding: '6px 12px' }}
+              sx={{
+                height: '42px',
+                padding: '6px 12px',
+                border: isLightMode ? '1px solid' : 'none',
+              }}
             >
               Add
             </FileInputButton>
             <Button
-              sx={{ height: '42px', ml: '4px', padding: '6px 12px' }}
+              sx={{
+                height: '42px',
+                ml: '4px',
+                padding: '6px 12px',
+              }}
               color="primary"
               variant="contained"
               onClick={onSave}

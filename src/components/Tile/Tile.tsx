@@ -2,6 +2,7 @@ import { useTheme } from '@mui/material/styles';
 import { ReactNode } from 'react';
 
 import { PDFPageReference } from '@/shared/models';
+import { Paper } from '@mui/material';
 import { useDrag } from '@namecheap/react-muuri';
 import Actions, { Action } from './Actions';
 import classes from './Tile.module.css';
@@ -16,8 +17,8 @@ export interface TileProps {
 
 function Tile(props: TileProps): JSX.Element {
   const { children, actions } = props;
-  const theme = useTheme();
   const isDragging = useDrag();
+  const theme = useTheme();
 
   const className = `${classes.container} ${isDragging ? classes.drag : ''}`;
   const actionsClassName = `${classes.actions} ${
@@ -26,7 +27,10 @@ function Tile(props: TileProps): JSX.Element {
 
   return (
     <div className={className}>
-      <div className={classes.contentContainer}>
+      <div
+        style={{ background: theme.palette.glass.main }}
+        className={classes.contentContainer}
+      >
         {actions && (
           <div className={actionsClassName}>
             <Actions actions={actions} />
@@ -34,9 +38,9 @@ function Tile(props: TileProps): JSX.Element {
         )}
         <div className={classes.content}>{children}</div>
       </div>
-      <div className={classes.footer}>
+      <Paper className={classes.footer}>
         <span>{props.index}</span>
-      </div>
+      </Paper>
     </div>
   );
 }

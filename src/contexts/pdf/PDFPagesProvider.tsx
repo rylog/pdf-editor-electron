@@ -27,7 +27,7 @@ const PDFPagesProvider: FC<PDFPagesProviderProps> = ({
   children,
 }: PropsWithChildren<unknown>) => {
   const [pages, setPages] = useState<LoadedPDFPage[]>([]);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const [error] = useState<string | undefined>();
   const currentFileIndex = useRef(0);
 

@@ -2,13 +2,20 @@ import PDFCanvas from '@/components/PDFCanvas/PDFCanvas';
 import { Action } from '@/components/Tile/Actions';
 import usePDFPages from '@/contexts/pdf/usePDFPages';
 import DeleteIcon from '@mui/icons-material/Delete';
+import RotateRightTwoTone from '@mui/icons-material/RotateRightTwoTone';
 import { CircularProgress } from '@mui/material';
 import { AutoScroller, MuuriComponent } from '@namecheap/react-muuri';
-import { type DecoratedGrid } from '@namecheap/react-muuri/dist/types/interfaces';
+import {
+  DecoratedItem,
+  type DecoratedGrid,
+} from '@namecheap/react-muuri/dist/types/interfaces';
 import { forwardRef, useRef } from 'react';
 import Tile, { TileProps } from '../../../components/Tile/Tile';
 import classes from './Gallery.module.css';
-import RotateRightTwoTone from '@mui/icons-material/RotateRightTwoTone';
+
+interface GridItem extends DecoratedItem {
+  getElement: () => HTMLElement;
+}
 
 const Gallery = forwardRef<DecoratedGrid>((_, ref) => {
   const { pages, isLoading, setPages } = usePDFPages();
@@ -86,8 +93,15 @@ const Gallery = forwardRef<DecoratedGrid>((_, ref) => {
           dragHandle={`.${draggable}`}
           dragPlaceholder={{
             enabled: true,
-            createElement: function (item: any) {
-              return item.getElement().cloneNode(true);
+            createElement: function (item: GridItem) {
+              const placeholder = item
+                .getElement()
+                .cloneNode(true) as HTMLElement;
+
+              placeholder.style.margin = '0';
+              placeholder.style.padding = '0';
+              placeholder.style.opacity = '0.5';
+              return placeholder;
             },
           }}
           propsToData={(itemProps) => {
