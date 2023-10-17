@@ -1,7 +1,7 @@
 import { PDFFileData, PDFPageReference } from '@/shared/models';
 import { dialog } from 'electron';
 import * as fs from 'fs';
-import { PDFDocument } from 'pdf-lib';
+import { PDFDocument, degrees } from 'pdf-lib';
 
 export class PdfService {
   private pdfDocumentMap = new Map<number, PDFDocument>();
@@ -9,12 +9,13 @@ export class PdfService {
   async generatePDF(pageReferences: PDFPageReference[]) {
     console.log('generating');
     const pdfDoc = await PDFDocument.create();
-    for (const { fileId, pageIndex } of pageReferences) {
+    for (const { fileId, pageIndex, rotation } of pageReferences) {
       const sourceDocument = this.pdfDocumentMap.get(fileId);
 
       if (sourceDocument) {
         // Copy the page before adding it to the new PDF
         const copiedPage = await pdfDoc.copyPages(sourceDocument, [pageIndex]);
+        copiedPage[0].setRotation(degrees(rotation));
         pdfDoc.addPage(copiedPage[0]);
       }
     }
