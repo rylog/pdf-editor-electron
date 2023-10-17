@@ -15,6 +15,9 @@ declare module '@mui/material/styles/createPalette' {
       content: string;
       footer: string;
     };
+    titleBar: {
+      border: string;
+    };
     editor: {
       main: string;
     };
@@ -24,7 +27,10 @@ declare module '@mui/material/styles/createPalette' {
       content: string;
       footer: string;
     };
-    editor: {
+    titleBar?: {
+      border: string;
+    };
+    editor?: {
       main: string;
     };
   }
@@ -59,6 +65,9 @@ const themeLight = createTheme({
       default: '#ffffff',
       paper: '#ffffff',
     },
+    titleBar: {
+      border: '#ededed',
+    },
     editor: {
       main: '#ffffff',
     },
@@ -81,9 +90,13 @@ const themeDark = createTheme({
       default: '#18191a',
       paper: '#18191a',
     },
+    titleBar: {
+      border: '#373737',
+    },
     editor: {
       main: '#1a1a1a',
     },
+
     tile: {
       content: 'rgba(74, 74, 74, 0.5)',
       footer: '#1d1d1d',

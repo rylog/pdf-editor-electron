@@ -8,6 +8,22 @@ const ipcEventSender = {
   generatePDF: (pageReferences: PDFPageReference[]) => {
     window.electronAPI.generatePDF(pageReferences);
   },
+
+  changeTheme: (theme: string) => {
+    window.electronAPI.changeTheme(theme);
+  },
+
+  minimize: () => {
+    window.electronAPI.minimize();
+  },
+
+  maximize: () => {
+    window.electronAPI.maximize();
+  },
+
+  close: () => {
+    window.electronAPI.close();
+  },
 };
 
 export default ipcEventSender;

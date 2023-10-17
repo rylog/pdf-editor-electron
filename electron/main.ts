@@ -6,10 +6,10 @@ const { app, BrowserWindow } = require('electron');
 const path = require('path');
 const isDev = require('electron-is-dev');
 
-const createWindow = (): void => {
+const createWindow = () => {
   const mainWindow = new BrowserWindow({
-    width: 1024,
-    height: 768,
+    width: 1200,
+    height: 800,
     webPreferences: {
       nodeIntegration: true,
       contextIsolation: true,
@@ -17,10 +17,6 @@ const createWindow = (): void => {
     },
     autoHideMenuBar: true,
     titleBarStyle: 'hidden',
-    titleBarOverlay: {
-      height: 32,
-      color: '#ffffff',
-    },
   });
 
   mainWindow.loadURL(
@@ -28,10 +24,16 @@ const createWindow = (): void => {
       ? 'http://localhost:9000'
       : `file://${path.join(__dirname, '../dist/index.html')}`
   );
+
+  return mainWindow;
 };
 
 app.whenReady().then(() => {
-  createWindow();
+  const mainWindow = createWindow();
+  container.register<Electron.CrossProcessExports.BrowserWindow>(
+    'BrowserWindow',
+    { useValue: mainWindow }
+  );
   app.on('activate', function () {
     if (BrowserWindow.getAllWindows().length === 0) createWindow();
   });

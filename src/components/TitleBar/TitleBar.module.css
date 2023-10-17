@@ -1,5 +1,6 @@
 .titleBar{
   display: flex;
+  user-select: none;
 }
 
 .draggable {

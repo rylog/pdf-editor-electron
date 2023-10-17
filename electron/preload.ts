@@ -36,6 +36,18 @@ const electronAPI: IElectronAPI = {
     ipcRenderer.send(ipcEvents.GENERATE_PDF, pageReference);
   },
   registerPDFFiles,
+  changeTheme: (theme: string) => {
+    ipcRenderer.send(ipcEvents.CHANGE_THEME, theme);
+  },
+  minimize: () => {
+    ipcRenderer.send(ipcEvents.MINIMIZE);
+  },
+  maximize: () => {
+    ipcRenderer.send(ipcEvents.MAXIMIZE);
+  },
+  close: () => {
+    ipcRenderer.send(ipcEvents.CLOSE);
+  },
 };
 
 contextBridge.exposeInMainWorld('electronAPI', electronAPI);

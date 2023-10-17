@@ -8,7 +8,7 @@ interface ColorModeProviderProps {
 const PDFPagesProvider: FC<ColorModeProviderProps> = ({
   children,
 }: PropsWithChildren<unknown>) => {
-  const [mode, setMode] = useState<'light' | 'dark'>('dark');
+  const [mode, setMode] = useState<'light' | 'dark'>('light');
   const toggleColorMode = () => {
     setMode((prevMode) => (prevMode === 'light' ? 'dark' : 'light'));
   };
