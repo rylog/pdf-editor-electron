@@ -1,9 +1,9 @@
 import { useTheme } from '@mui/material/styles';
-import { ReactNode } from 'react';
 
 import { PDFPageReference } from '@/shared/models';
 import { Paper } from '@mui/material';
 import { useDrag } from '@namecheap/react-muuri';
+import { PropsWithChildren } from 'react';
 import Actions, { Action } from './Actions';
 import classes from './Tile.module.css';
 
@@ -11,11 +11,10 @@ export interface TileProps {
   index: number;
   pageReference: PDFPageReference;
   actions?: Action[];
-  children: ReactNode;
   remove?: () => void;
 }
 
-const Tile = (props: TileProps) => {
+const Tile = (props: PropsWithChildren<TileProps>) => {
   const { children, actions } = props;
   const isDragging = useDrag();
   const theme = useTheme();

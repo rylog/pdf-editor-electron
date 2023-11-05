@@ -20,7 +20,7 @@ const FileInputButton = (props: FileInputButtonProps & ButtonProps) => {
     }
   };
 
-  const { children, onFileChange, buttonType = Button, ...buttonProps } = props;
+  const { onFileChange, buttonType = Button, ...buttonProps } = props;
 
   const ButtonType = buttonType;
   return (
@@ -34,7 +34,7 @@ const FileInputButton = (props: FileInputButtonProps & ButtonProps) => {
         onChange={onFileChange}
       />
       <ButtonType {...buttonProps} onClick={browseFiles}>
-        {children}
+        {buttonProps.children}
       </ButtonType>
     </>
   );

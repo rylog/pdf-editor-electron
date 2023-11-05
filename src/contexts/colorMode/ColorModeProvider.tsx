@@ -1,13 +1,7 @@
-import { FC, PropsWithChildren, useState } from 'react';
+import { PropsWithChildren, useState } from 'react';
 import ColorModeContext from './ColorModeContext';
 
-interface ColorModeProviderProps {
-  children: React.ReactNode;
-}
-
-const PDFPagesProvider: FC<ColorModeProviderProps> = ({
-  children,
-}: PropsWithChildren<unknown>) => {
+const PDFPagesProvider = ({ children }: PropsWithChildren<unknown>) => {
   const [mode, setMode] = useState<'light' | 'dark'>('light');
   const toggleColorMode = () => {
     setMode((prevMode) => (prevMode === 'light' ? 'dark' : 'light'));

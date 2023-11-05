@@ -1,27 +1,27 @@
 import { PDFFileData, PDFPageReference } from '@/shared/models';
 
 const ipcEventSender = {
-  registerPDFFiles: (filesData: PDFFileData[]) => {
+  registerPDFFiles: (filesData: PDFFileData[]): Promise<void> => {
     return window.electronAPI.registerPDFFiles(filesData);
   },
 
-  generatePDF: (pageReferences: PDFPageReference[]) => {
+  generatePDF: (pageReferences: PDFPageReference[]): void => {
     window.electronAPI.generatePDF(pageReferences);
   },
 
-  changeTheme: (theme: string) => {
+  changeTheme: (theme: string): void => {
     window.electronAPI.changeTheme(theme);
   },
 
-  minimize: () => {
+  minimize: (): void => {
     window.electronAPI.minimize();
   },
 
-  maximize: () => {
+  maximize: (): void => {
     window.electronAPI.maximize();
   },
 
-  close: () => {
+  close: (): void => {
     window.electronAPI.close();
   },
 };
