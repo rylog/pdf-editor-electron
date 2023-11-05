@@ -17,7 +17,7 @@ const modes = [
   },
 ];
 
-export default function MenuSelect() {
+export const MenuSelect = () => {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const [selectedIndex, setSelectedIndex] = React.useState(0);
   const open = anchorEl != null;
@@ -60,4 +60,4 @@ export default function MenuSelect() {
       </Menu>
     </div>
   );
-}
+};

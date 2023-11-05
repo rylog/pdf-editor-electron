@@ -15,7 +15,7 @@ export interface TileProps {
   remove?: () => void;
 }
 
-function Tile(props: TileProps): JSX.Element {
+const Tile = (props: TileProps) => {
   const { children, actions } = props;
   const isDragging = useDrag();
   const theme = useTheme();
@@ -46,6 +46,6 @@ function Tile(props: TileProps): JSX.Element {
       </Paper>
     </div>
   );
-}
+};
 
 export default Tile;

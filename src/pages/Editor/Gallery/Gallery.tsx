@@ -30,7 +30,7 @@ const Gallery = (props: GridProps) => {
   };
 
   const handleDeleteClick = (id: string) => {
-    return function () {
+    return () => {
       removePage(id);
     };
   };
@@ -46,7 +46,7 @@ const Gallery = (props: GridProps) => {
   };
 
   const handleRotateClick = (id: string) => {
-    return function () {
+    return () => {
       rotatePage(id);
     };
   };
@@ -96,7 +96,7 @@ const Gallery = (props: GridProps) => {
           dragHandle={`.${draggable}`}
           dragPlaceholder={{
             enabled: true,
-            createElement: function (item: GridItem) {
+            createElement: (item: GridItem) => {
               const placeholder = item
                 .getElement()
                 .cloneNode(true) as HTMLElement;

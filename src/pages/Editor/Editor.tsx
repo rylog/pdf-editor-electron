@@ -9,7 +9,7 @@ import FileInputButton from '../../components/Buttons/FileInputButton';
 import classes from './Editor.module.css';
 import Gallery from './Gallery/Gallery';
 
-function Editor(): JSX.Element {
+const Editor = () => {
   const { error, loadPDFPages, generatePDF } = usePDFPages();
 
   const gridRef = useRef<DecoratedGrid>(null);
@@ -76,6 +76,6 @@ function Editor(): JSX.Element {
       <Gallery gridRef={gridRef} />
     </Paper>
   );
-}
+};
 
 export default Editor;

@@ -9,7 +9,7 @@ import { Box, Button, IconButton } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 import classes from './TitleBar.module.css';
 
-function TitleBar(): JSX.Element {
+const TitleBar = () => {
   const { mode, toggleColorMode } = useColorMode();
   const theme = useTheme();
   const minimize = () => ipcEventSender.minimize();
@@ -56,6 +56,6 @@ function TitleBar(): JSX.Element {
       </Button>
     </div>
   );
-}
+};
 
 export default TitleBar;

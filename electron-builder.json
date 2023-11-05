@@ -1,6 +1,6 @@
 {
   "appId": "com.example.pdf-editor-electron",
-  "productName": "Pdf Editor",
+  "productName": "Fluid PDF",
   "directories": {
     "output": "build"
   },
@@ -17,12 +17,15 @@
         "target": "nsis",
         "arch": ["x64", "ia32"]
       }
-    ]
+    ],
+    "icon": "assets/fluid_256.png" 
   },
   "mac": {
-    "category": "public.app-category.productivity"
+    "category": "public.app-category.productivity",
+    "icon": "assets/fluid_256.png" 
   },
   "linux": {
-    "target": ["AppImage", "deb"]
+    "target": ["AppImage", "deb"],
+    "icon": "assets/fluid_256.png" 
   }
 }

@@ -72,7 +72,7 @@ const themeLight = createTheme({
       main: '#ffffff',
     },
     tile: {
-      content: 'rgba(247,249,252, 0.5)',
+      content: 'rgba(248, 248, 248, 0.5)',
       footer: '#ffffff',
     },
     primary: {
@@ -94,7 +94,7 @@ const themeDark = createTheme({
       border: '#373737',
     },
     editor: {
-      main: '#1a1a1a',
+      main: '#141414',
     },
 
     tile: {
@@ -102,7 +102,7 @@ const themeDark = createTheme({
       footer: '#1d1d1d',
     },
     primary: {
-      main: '#343d96',
+      main: '#4D6CFA',
     },
     secondary: {
       main: '#bdc2ff',
@@ -114,7 +114,7 @@ const themeDark = createTheme({
   typography: typographyOptions,
 });
 
-function App(): JSX.Element {
+const App = () => {
   const { mode } = useColorMode();
   const theme = mode === 'light' ? themeLight : themeDark;
 
@@ -132,6 +132,6 @@ function App(): JSX.Element {
       </Router>
     </ThemeProvider>
   );
-}
+};
 
 export default App;

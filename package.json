@@ -1,7 +1,7 @@
 {
-  "name": "webpack-test",
+  "name": "fluid-pdf",
   "version": "1.0.0",
-  "description": "",
+  "description": "Pdf reordering and merging tool that supports rotation and deletion of pages",
   "main": "./dist/main.js",
   "scripts": {
     "build": "cross-env NODE_ENV=production yarn webpack-clean-build && electron-builder",

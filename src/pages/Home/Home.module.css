@@ -19,10 +19,6 @@ h1 {
   margin: auto 8px auto 8px;
 }
 
-.folder {
-  transform: scale(1.8);
-}
-
 .main {
   display: flex;
   height: 100%;
@@ -53,4 +49,10 @@ h1 {
 
 .fileInput {
   display: none;
+}
+
+.icon {
+  width: 140px;
+  height: 140px;
+  margin-bottom: 8px;
 }

@@ -5,11 +5,13 @@ import IpcEventsHandler from './ipc/ipcEventsHandler';
 const { app, BrowserWindow } = require('electron');
 const path = require('path');
 const isDev = require('electron-is-dev');
+const iconPath = path.join(__dirname, '../assets/fluid_256.png');
 
 const createWindow = () => {
   const mainWindow = new BrowserWindow({
-    width: 1200,
-    height: 800,
+    width: 1000,
+    height: 667,
+    icon: iconPath,
     webPreferences: {
       nodeIntegration: true,
       contextIsolation: true,
@@ -19,10 +21,11 @@ const createWindow = () => {
     titleBarStyle: 'hidden',
   });
 
+  mainWindow.maximize();
   mainWindow.loadURL(
     isDev
       ? 'http://localhost:9000'
-      : `file://${path.join(__dirname, '../dist/index.html')}`
+      : `file://${path.join(__dirname, 'index.html')}`
   );
 
   return mainWindow;

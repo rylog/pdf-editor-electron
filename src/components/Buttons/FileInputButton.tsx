@@ -1,16 +1,16 @@
 import Button from '@mui/material/Button';
-import { ButtonProps } from '@mui/material/Button/Button';
+import { ButtonProps, ButtonTypeMap } from '@mui/material/Button/Button';
 import { ChangeEvent, useRef } from 'react';
 
+import { ExtendButtonBase } from '@mui/material';
 import classes from './FileInputButton.module.css';
 
 interface FileInputButtonProps {
+  buttonType?: ExtendButtonBase<ButtonTypeMap<unknown, 'button'>>;
   onFileChange: (event: ChangeEvent<HTMLInputElement>) => void;
 }
 
-function FileInputButton(
-  props: FileInputButtonProps & ButtonProps
-): JSX.Element {
+const FileInputButton = (props: FileInputButtonProps & ButtonProps) => {
   const hiddenFileInputRef = useRef<HTMLInputElement>(null);
 
   const browseFiles = (): void => {
@@ -20,7 +20,9 @@ function FileInputButton(
     }
   };
 
-  const { children, onFileChange, ...buttonProps } = props;
+  const { children, onFileChange, buttonType = Button, ...buttonProps } = props;
+
+  const ButtonType = buttonType;
   return (
     <>
       <input
@@ -31,11 +33,11 @@ function FileInputButton(
         multiple
         onChange={onFileChange}
       />
-      <Button {...buttonProps} onClick={browseFiles}>
+      <ButtonType {...buttonProps} onClick={browseFiles}>
         {children}
-      </Button>
+      </ButtonType>
     </>
   );
-}
+};
 
 export default FileInputButton;

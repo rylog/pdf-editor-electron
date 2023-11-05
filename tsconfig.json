@@ -11,7 +11,8 @@
     "jsx": "react-jsx",
     "baseUrl": ".",
     "paths": {
-      "@/*": ["src/*"]
+      "@/*": ["src/*"],
+      "@assets/*": ["src/assets/*"]
     }
   },
   "include": ["src", "src/declarations.d.ts", "src/electron.d.ts", "electron", "config/webpack",],
