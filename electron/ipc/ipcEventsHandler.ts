@@ -19,7 +19,7 @@ class IpcEventsHandler {
     ipcMain.on(
       ipcEvents.GENERATE_PDF,
       (_, pageReferences: PDFPageReference[]) =>
-        this.pdfService.generatePDF(pageReferences)
+        this.pdfService.generatePDF(this.mainWindow, pageReferences)
     );
 
     ipcMain.on(

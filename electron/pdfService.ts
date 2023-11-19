@@ -1,12 +1,12 @@
 import { PDFFileData, PDFPageReference } from '@/shared/models';
-import { dialog } from 'electron';
+import { BrowserWindow, dialog } from 'electron';
 import * as fs from 'fs';
 import { PDFDocument, degrees } from 'pdf-lib';
 
 export class PdfService {
   private pdfDocumentMap = new Map<number, PDFDocument>();
 
-  async generatePDF(pageReferences: PDFPageReference[]) {
+  async generatePDF(window: BrowserWindow, pageReferences: PDFPageReference[]) {
     console.log('generating');
     const pdfDoc = await PDFDocument.create();
     for (const { fileId, pageIndex, rotation } of pageReferences) {
@@ -24,7 +24,7 @@ export class PdfService {
     const pdfBytes = await pdfDoc.save();
 
     // Show save dialog
-    const dialogResult = await dialog.showSaveDialog({
+    const dialogResult = await dialog.showSaveDialog(window, {
       defaultPath: 'output.pdf', // Default file name and path
       filters: [{ name: 'PDF Files', extensions: ['pdf'] }],
     });
