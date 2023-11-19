@@ -3,6 +3,7 @@ import PDFPagesProvider from '@/contexts/pdf/PDFPagesProvider';
 import { Components, CssBaseline } from '@mui/material';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import { TypographyOptions } from '@mui/material/styles/createTypography';
+import { Toaster } from 'react-hot-toast';
 import { Route, MemoryRouter as Router, Routes } from 'react-router-dom';
 import TitleBar from '../components/TitleBar/TitleBar';
 import Editor from '../pages/Editor/Editor';
@@ -123,6 +124,12 @@ const App = () => {
       <CssBaseline />
       <TitleBar />
       <Router>
+        <Toaster
+          position="top-center"
+          containerStyle={{
+            position: 'relative',
+          }}
+        />
         <PDFPagesProvider>
           <Routes>
             <Route path="/" element={<Home />} />

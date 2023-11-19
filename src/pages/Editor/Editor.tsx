@@ -5,6 +5,8 @@ import { Button, Paper } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 import { type DecoratedGrid } from '@namecheap/react-muuri/dist/types/interfaces';
 import { useRef, type ChangeEvent } from 'react';
+import Dropzone, { FileRejection } from 'react-dropzone';
+import toast from 'react-hot-toast';
 import FileInputButton from '../../components/Buttons/FileInputButton';
 import classes from './Editor.module.css';
 import Gallery from './Gallery/Gallery';
@@ -21,9 +23,9 @@ const Editor = () => {
   }
 
   const addFiles = (event: ChangeEvent<HTMLInputElement>): void => {
-    if (event?.target.files != null) {
-      loadPDFPages(event?.target.files);
-    }
+    const { files } = event.target;
+    const filesArray = files ? Array.from(files) : [];
+    loadPDFPages(filesArray);
   };
 
   const onSave = (): void => {
@@ -36,45 +38,66 @@ const Editor = () => {
     generatePDF(data);
   };
 
-  return (
-    <Paper
-      style={{ background: theme.palette.editor.main }}
-      className={classes.editor}
-    >
-      <div className={classes.header}>
-        <div className={classes.actions}>
-          <div className={classes.modifiers}></div>
-          <div className={classes.actionButtons}>
-            <FileInputButton
-              color={isLightMode ? 'primary' : 'secondary'}
-              variant={isLightMode ? 'outlined' : 'text'}
-              onFileChange={addFiles}
-              startIcon={<AddIcon />}
-              sx={{
-                height: '42px',
-                padding: '6px 12px',
-                border: isLightMode ? '1px solid' : 'none',
-              }}
-            >
-              Add
-            </FileInputButton>
-            <Button
-              sx={{
-                height: '42px',
-                ml: '4px',
-                padding: '6px 12px',
-              }}
-              color="primary"
-              variant="contained"
-              onClick={onSave}
-            >
-              Save
-            </Button>
-          </div>
+  const onDropRejected = (fileRejections: FileRejection[]) => {
+    for (const file of fileRejections) {
+      toast.error(
+        <div>
+          Unsupported file format. Could not load{' '}
+          <strong>{file.file.name}</strong>
         </div>
-      </div>
-      <Gallery gridRef={gridRef} />
-    </Paper>
+      );
+    }
+  };
+
+  return (
+    <Dropzone
+      noClick
+      accept={{ 'application/pdf': ['.pdf'] }}
+      onDropAccepted={loadPDFPages}
+      onDropRejected={onDropRejected}
+    >
+      {({ getRootProps }) => (
+        <Paper
+          {...getRootProps()}
+          style={{ background: theme.palette.editor.main }}
+          className={classes.editor}
+        >
+          <div className={classes.header}>
+            <div className={classes.actions}>
+              <div className={classes.modifiers}></div>
+              <div className={classes.actionButtons}>
+                <FileInputButton
+                  color={isLightMode ? 'primary' : 'secondary'}
+                  variant={isLightMode ? 'outlined' : 'text'}
+                  onFileChange={addFiles}
+                  startIcon={<AddIcon />}
+                  sx={{
+                    height: '42px',
+                    padding: '6px 12px',
+                    border: isLightMode ? '1px solid' : 'none',
+                  }}
+                >
+                  Add
+                </FileInputButton>
+                <Button
+                  sx={{
+                    height: '42px',
+                    ml: '4px',
+                    padding: '6px 12px',
+                  }}
+                  color="primary"
+                  variant="contained"
+                  onClick={onSave}
+                >
+                  Save
+                </Button>
+              </div>
+            </div>
+          </div>
+          <Gallery gridRef={gridRef} />
+        </Paper>
+      )}
+    </Dropzone>
   );
 };
 

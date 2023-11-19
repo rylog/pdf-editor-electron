@@ -7,7 +7,10 @@ interface PDFPagesContextValue {
   isLoading: boolean;
   error: string | undefined;
   setPages: (pages: LoadedPDFPage[]) => void;
-  loadPDFPages: (files: FileList) => Promise<void>;
+  loadPDFPages: (files: File[]) => Promise<{
+    success: LoadedPDFPage[];
+    failures: { fileName: string; error: string }[];
+  }>;
   generatePDF: (pageReferences: PDFPageReference[]) => void;
 }
 
