@@ -22,13 +22,15 @@ class IpcEventsHandler {
         this.pdfService.generatePDF(this.mainWindow, pageReferences)
     );
 
-    ipcMain.on(
+    ipcMain.handle(
       ipcEvents.REGISTER_PDF_FILES,
-      (event, filesData: PDFFileData[]) => {
+      (_, filesData: PDFFileData[]) => {
         this.pdfService.registerPDFFiles(filesData);
-        event.sender.send(ipcEvents.REGISTER_PDF_FILES_COMPLETED);
+        return;
       }
     );
+
+    //window events
     ipcMain.on(ipcEvents.MINIMIZE, () => {
       this.mainWindow.minimize();
     });

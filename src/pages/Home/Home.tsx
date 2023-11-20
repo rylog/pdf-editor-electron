@@ -1,6 +1,6 @@
 import iconImage from '@/assets/icons/fluid_256.png';
 import usePDFPages from '@/contexts/pdf/usePDFPages';
-import { Paper } from '@mui/material';
+import { CircularProgress, Paper } from '@mui/material';
 import { ChangeEvent } from 'react';
 import Dropzone, { FileRejection } from 'react-dropzone';
 import toast from 'react-hot-toast';
@@ -10,7 +10,7 @@ import classes from './Home.module.css';
 
 const Home = () => {
   const navigate = useNavigate();
-  const { loadPDFPages } = usePDFPages();
+  const { loadPDFPages, isLoading } = usePDFPages();
 
   const loadFiles = async (files: File[]) => {
     if (files.length > 0) {
@@ -37,6 +37,10 @@ const Home = () => {
       );
     }
   };
+
+  if (isLoading) {
+    return <CircularProgress className={classes.circularProgress} />;
+  }
 
   return (
     <Dropzone

@@ -55,3 +55,11 @@ h1 {
   height: 140px;
   margin-bottom: 8px;
 }
+
+.circularProgress{
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  margin-left: -20px;
+  margin-top: -20px;
+}
