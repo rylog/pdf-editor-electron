@@ -89,8 +89,8 @@ const Gallery = (props: GridProps) => {
   });
 
   return (
-    <div className={classes.Gallery} ref={scrollElemRef}>
-      {isLoading && <CircularProgress className={classes.CircularProgress} />}
+    <div className={classes.gallery} ref={scrollElemRef}>
+      {isLoading && <CircularProgress className={classes.circularProgress} />}
       <div style={{ visibility: isLoading ? 'hidden' : 'visible' }}>
         <MuuriComponent
           dragHandle={`.${draggable}`}

@@ -1,4 +1,4 @@
-.Gallery {
+.gallery {
   overflow-y: auto;
   scrollbar-gutter: stable both-edges;
   scrollbar-width: thin;
@@ -7,7 +7,7 @@
   padding: 20px 4px;
 }
 
-.CircularProgress{
+.circularProgress{
   position: absolute;
   left: 50%;
   top: 50%;
@@ -15,7 +15,7 @@
   margin-top: -20px;
 }
 
-.TileActions{
+.tileActions{
   position: absolute;
   right: 0px;
 }
