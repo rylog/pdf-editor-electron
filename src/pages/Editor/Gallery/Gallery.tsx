@@ -104,6 +104,9 @@ const Gallery = (props: GridProps) => {
               placeholder.style.margin = '0';
               placeholder.style.padding = '0';
               placeholder.style.opacity = '0.5';
+              placeholder.style.borderRadius = '4px';
+              placeholder.style.borderColor = '#ff78a0';
+              placeholder.style.borderStyle = 'dashed';
               return placeholder;
             },
           }}
@@ -113,7 +116,7 @@ const Gallery = (props: GridProps) => {
           }}
           ref={props.gridRef}
           dragEnabled
-          instantLayout
+          showDuration={0}
           dragContainer={document.body}
           dragAutoScroll={{
             sortDuringScroll: false,

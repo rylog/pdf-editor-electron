@@ -25,24 +25,26 @@ const Tile = (props: PropsWithChildren<TileProps>) => {
   }`;
 
   return (
-    <div className={className}>
-      <div
-        style={{ background: theme.palette.tile.content }}
-        className={classes.contentContainer}
-      >
-        {actions && (
-          <div className={actionsClassName}>
-            <Actions actions={actions} />
-          </div>
-        )}
-        <div className={classes.content}>{children}</div>
+    <div style={{ display: 'none' }} className={classes.wrapper}>
+      <div className={className}>
+        <div
+          style={{ background: theme.palette.tile.content }}
+          className={classes.contentContainer}
+        >
+          {actions && (
+            <div className={actionsClassName}>
+              <Actions actions={actions} />
+            </div>
+          )}
+          <div className={classes.content}>{children}</div>
+        </div>
+        <Paper
+          style={{ background: theme.palette.tile.footer }}
+          className={classes.footer}
+        >
+          <span>{props.index}</span>
+        </Paper>
       </div>
-      <Paper
-        style={{ background: theme.palette.tile.footer }}
-        className={classes.footer}
-      >
-        <span>{props.index}</span>
-      </Paper>
     </div>
   );
 };

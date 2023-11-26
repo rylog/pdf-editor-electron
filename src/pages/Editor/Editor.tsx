@@ -12,7 +12,7 @@ import classes from './Editor.module.css';
 import Gallery from './Gallery/Gallery';
 
 const Editor = () => {
-  const { error, loadPDFPages, generatePDF } = usePDFPages();
+  const { error, loadPDFPages, generatePDF, pages } = usePDFPages();
 
   const gridRef = useRef<DecoratedGrid>(null);
   const theme = useTheme();
@@ -88,6 +88,7 @@ const Editor = () => {
                   color="primary"
                   variant="contained"
                   onClick={onSave}
+                  disabled={pages.length == 0}
                 >
                   Save
                 </Button>
