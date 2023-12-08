@@ -16,18 +16,22 @@ class IpcEventsHandler {
   }
 
   public setupIpcEventsHandler() {
-    ipcMain.on(
-      ipcEvents.GENERATE_PDF,
-      (_, pageReferences: PDFPageReference[]) =>
-        this.pdfService.generatePDF(this.mainWindow, pageReferences)
-    );
-
     ipcMain.handle(
       ipcEvents.REGISTER_PDF_FILES,
       (_, filesData: PDFFileData[]) => {
         this.pdfService.registerPDFFiles(filesData);
         return;
       }
+    );
+
+    ipcMain.on(
+      ipcEvents.GENERATE_PDF,
+      (_, pageReferences: PDFPageReference[]) =>
+        this.pdfService.generatePDF(this.mainWindow, pageReferences)
+    );
+
+    ipcMain.on(ipcEvents.CLEAR_PDF_FILES, () =>
+      this.pdfService.clearPDFFiles()
     );
 
     //window events

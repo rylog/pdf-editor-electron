@@ -6,8 +6,18 @@ import { PDFDocument, degrees } from 'pdf-lib';
 export class PdfService {
   private pdfDocumentMap = new Map<number, PDFDocument>();
 
+  async registerPDFFiles(filesData: PDFFileData[]): Promise<void> {
+    for (const fileData of filesData) {
+      const document = await PDFDocument.load(fileData.data);
+      this.pdfDocumentMap.set(fileData.id, document);
+    }
+  }
+
+  clearPDFFiles(): void {
+    this.pdfDocumentMap.clear();
+  }
+
   async generatePDF(window: BrowserWindow, pageReferences: PDFPageReference[]) {
-    console.log('generating');
     const pdfDoc = await PDFDocument.create();
     for (const { fileId, pageIndex, rotation } of pageReferences) {
       const sourceDocument = this.pdfDocumentMap.get(fileId);
@@ -39,14 +49,6 @@ export class PdfService {
       } catch (error) {
         console.error('Error saving PDF:', error);
       }
-    }
-  }
-
-  async registerPDFFiles(filesData: PDFFileData[]): Promise<void> {
-    console.log('registering');
-    for (const fileData of filesData) {
-      const document = await PDFDocument.load(fileData.data);
-      this.pdfDocumentMap.set(fileData.id, document);
     }
   }
 }

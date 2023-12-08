@@ -1,6 +1,7 @@
 import { PDFFileData, PDFPageReference } from './shared/models';
 
 export interface IElectronAPI {
+  clearPDFFiles: () => void;
   registerPDFFiles: (filesData: PDFFileData[]) => Promise<void>;
   generatePDF: (pageReferences: PDFPageReference[]) => void;
   changeTheme: (theme: string) => void;

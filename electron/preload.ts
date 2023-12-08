@@ -9,6 +9,9 @@ const registerPDFFiles = (filesData: PDFFileData[]) => {
 };
 
 const electronAPI: IElectronAPI = {
+  clearPDFFiles: () => {
+    ipcRenderer.send(ipcEvents.CLEAR_PDF_FILES);
+  },
   generatePDF: (pageReference: PDFPageReference[]) => {
     ipcRenderer.send(ipcEvents.GENERATE_PDF, pageReference);
   },

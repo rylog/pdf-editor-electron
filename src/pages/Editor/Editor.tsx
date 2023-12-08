@@ -1,18 +1,23 @@
+import ModalButton from '@/components/Buttons/ModalButton';
 import usePDFPages from '@/contexts/pdf/usePDFPages';
+import ipcEventSender from '@/services/ipcEventsSender';
 import { PDFPageReference } from '@/shared/models';
 import AddIcon from '@mui/icons-material/Add';
+import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import { Button, Paper } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 import { type DecoratedGrid } from '@namecheap/react-muuri/dist/types/interfaces';
 import { useRef, type ChangeEvent } from 'react';
 import Dropzone, { FileRejection } from 'react-dropzone';
 import toast from 'react-hot-toast';
+import { useNavigate } from 'react-router-dom';
 import FileInputButton from '../../components/Buttons/FileInputButton';
 import classes from './Editor.module.css';
 import Gallery from './Gallery/Gallery';
 
 const Editor = () => {
-  const { error, loadPDFPages, generatePDF, pages } = usePDFPages();
+  const navigate = useNavigate();
+  const { error, loadPDFPages, generatePDF, pages, setPages } = usePDFPages();
 
   const gridRef = useRef<DecoratedGrid>(null);
   const theme = useTheme();
@@ -49,6 +54,12 @@ const Editor = () => {
     }
   };
 
+  const onReturnHomeConfirmed = () => {
+    setPages([]);
+    ipcEventSender.clearPDFFiles();
+    navigate('/');
+  };
+
   return (
     <Dropzone
       noClick
@@ -64,7 +75,18 @@ const Editor = () => {
         >
           <div className={classes.header}>
             <div className={classes.actions}>
-              <div className={classes.modifiers}></div>
+              <div className={classes.left}>
+                <ModalButton
+                  modalTitle={'Return to home?'}
+                  modalContent={
+                    "Your current changes will be discarded if you click 'OK'."
+                  }
+                  onConfirm={onReturnHomeConfirmed}
+                  startIcon={<ArrowBackIosNewIcon />}
+                >
+                  Back
+                </ModalButton>
+              </div>
               <div className={classes.actionButtons}>
                 <FileInputButton
                   color={isLightMode ? 'primary' : 'secondary'}

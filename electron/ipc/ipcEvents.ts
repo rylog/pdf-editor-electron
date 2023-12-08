@@ -1,6 +1,7 @@
 const ipcEvents = {
-  GENERATE_PDF: 'generate-pdf',
+  CLEAR_PDF_FILES: 'reset-pdf-files',
   REGISTER_PDF_FILES: 'register-pdf-files',
+  GENERATE_PDF: 'generate-pdf',
   CHANGE_THEME: 'change-theme',
 
   //Main window

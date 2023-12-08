@@ -5,6 +5,10 @@ const ipcEventSender = {
     return window.electronAPI.registerPDFFiles(filesData);
   },
 
+  clearPDFFiles: (): void => {
+    window.electronAPI.clearPDFFiles();
+  },
+
   generatePDF: (pageReferences: PDFPageReference[]): void => {
     window.electronAPI.generatePDF(pageReferences);
   },
