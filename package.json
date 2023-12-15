@@ -1,5 +1,5 @@
 {
-  "name": "fluid-pdf",
+  "name": "fluid.pdf",
   "version": "1.0.0",
   "description": "Pdf reordering and merging tool that supports rotation and deletion of pages",
   "main": "./dist/main.js",
@@ -66,6 +66,7 @@
     "@mui/material": "^5.11.15",
     "@namecheap/react-muuri": "^4.0.0",
     "electron-is-dev": "^2.0.0",
+    "electron-settings": "^4.0.2",
     "muuri": "^0.9.5",
     "pdf-lib": "^1.17.1",
     "react-dropzone": "^14.2.3",

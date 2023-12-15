@@ -1,6 +1,6 @@
 {
   "appId": "com.example.pdf-editor-electron",
-  "productName": "Fluid PDF",
+  "productName": "Fluid",
   "directories": {
     "output": "build"
   },
@@ -18,14 +18,12 @@
         "arch": ["x64", "ia32"]
       }
     ],
-    "icon": "assets/fluid_256.png" 
+    "icon": "assets/fluid_256.png"
   },
-  "mac": {
-    "category": "public.app-category.productivity",
-    "icon": "assets/fluid_256.png" 
-  },
-  "linux": {
-    "target": ["AppImage", "deb"],
-    "icon": "assets/fluid_256.png" 
+  "nsis": {
+    "oneClick": false,
+    "perMachine": false,
+    "allowElevation": true,
+    "allowToChangeInstallationDirectory": true
   }
 }
