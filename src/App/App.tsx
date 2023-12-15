@@ -129,6 +129,12 @@ const App = () => {
           containerStyle={{
             position: 'relative',
           }}
+          toastOptions={{
+            style: {
+              background: mode === 'light' ? '#fff' : '#333',
+              color: mode === 'light' ? '#333' : '#fff',
+            },
+          }}
         />
         <PDFPagesProvider>
           <Routes>

@@ -4,10 +4,6 @@ import ipcEvents from './ipc/ipcEvents';
 
 const { contextBridge, ipcRenderer } = require('electron');
 
-const registerPDFFiles = (filesData: PDFFileData[]) => {
-  return ipcRenderer.invoke(ipcEvents.REGISTER_PDF_FILES, filesData);
-};
-
 const electronAPI: IElectronAPI = {
   clearPDFFiles: () => {
     ipcRenderer.send(ipcEvents.CLEAR_PDF_FILES);
@@ -15,9 +11,17 @@ const electronAPI: IElectronAPI = {
   generatePDF: (pageReference: PDFPageReference[]) => {
     ipcRenderer.send(ipcEvents.GENERATE_PDF, pageReference);
   },
-  registerPDFFiles,
+  registerPDFFiles: (filesData: PDFFileData[]) => {
+    return ipcRenderer.invoke(ipcEvents.REGISTER_PDF_FILES, filesData);
+  },
+  getTheme: () => {
+    return ipcRenderer.invoke(ipcEvents.GET_THEME);
+  },
   changeTheme: (theme: string) => {
     ipcRenderer.send(ipcEvents.CHANGE_THEME, theme);
+  },
+  show: () => {
+    ipcRenderer.send(ipcEvents.SHOW);
   },
   minimize: () => {
     ipcRenderer.send(ipcEvents.MINIMIZE);

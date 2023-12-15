@@ -4,7 +4,9 @@ export interface IElectronAPI {
   clearPDFFiles: () => void;
   registerPDFFiles: (filesData: PDFFileData[]) => Promise<void>;
   generatePDF: (pageReferences: PDFPageReference[]) => void;
+  getTheme: () => Promise<string>;
   changeTheme: (theme: string) => void;
+  show: () => void;
   minimize: () => void;
   maximize: () => void;
   close: () => void;

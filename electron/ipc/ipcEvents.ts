@@ -3,8 +3,10 @@ const ipcEvents = {
   REGISTER_PDF_FILES: 'register-pdf-files',
   GENERATE_PDF: 'generate-pdf',
   CHANGE_THEME: 'change-theme',
+  GET_THEME: 'get-theme',
 
   //Main window
+  SHOW: 'show',
   MINIMIZE: 'minimize',
   MAXIMIZE: 'maximize',
   RESTORE: 'restore',

@@ -1,5 +1,6 @@
 import { PDFFileData, PDFPageReference } from '@/shared/models';
-import { BrowserWindow, ipcMain } from 'electron';
+import { BrowserWindow, ipcMain, nativeTheme } from 'electron';
+import settings from 'electron-settings';
 import { container, inject, singleton } from 'tsyringe';
 import { PdfService } from '../pdfService';
 import ipcEvents from './ipcEvents';
@@ -14,6 +15,13 @@ class IpcEventsHandler {
   ) {
     this.pdfService = container.resolve(PdfService);
   }
+
+  getThemeMode = async () => {
+    if (await settings.has('theme')) {
+      return settings.get('theme');
+    }
+    return nativeTheme.shouldUseDarkColors ? 'dark' : 'light';
+  };
 
   public setupIpcEventsHandler() {
     ipcMain.handle(
@@ -34,7 +42,19 @@ class IpcEventsHandler {
       this.pdfService.clearPDFFiles()
     );
 
+    ipcMain.handle(ipcEvents.GET_THEME, async () => {
+      return this.getThemeMode();
+    });
+
+    ipcMain.on(ipcEvents.CHANGE_THEME, (_, theme: 'light' | 'dark') => {
+      settings.set('theme', theme);
+    });
+
     //window events
+    ipcMain.on(ipcEvents.SHOW, () => {
+      console.log('show');
+      this.mainWindow.show();
+    });
     ipcMain.on(ipcEvents.MINIMIZE, () => {
       this.mainWindow.minimize();
     });

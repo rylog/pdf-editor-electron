@@ -19,9 +19,8 @@ const createWindow = () => {
     },
     autoHideMenuBar: true,
     titleBarStyle: 'hidden',
+    show: false,
   });
-
-  mainWindow.maximize();
   mainWindow.loadURL(
     isDev
       ? 'http://localhost:9000'

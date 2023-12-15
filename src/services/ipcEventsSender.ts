@@ -1,6 +1,7 @@
+import { IElectronAPI } from '@/electron';
 import { PDFFileData, PDFPageReference } from '@/shared/models';
 
-const ipcEventSender = {
+const ipcEventSender: IElectronAPI = {
   registerPDFFiles: (filesData: PDFFileData[]): Promise<void> => {
     return window.electronAPI.registerPDFFiles(filesData);
   },
@@ -17,6 +18,10 @@ const ipcEventSender = {
     window.electronAPI.changeTheme(theme);
   },
 
+  show: (): void => {
+    window.electronAPI.show();
+  },
+
   minimize: (): void => {
     window.electronAPI.minimize();
   },
@@ -27,6 +32,9 @@ const ipcEventSender = {
 
   close: (): void => {
     window.electronAPI.close();
+  },
+  getTheme: (): Promise<string> => {
+    return window.electronAPI.getTheme();
   },
 };
 

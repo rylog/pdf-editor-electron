@@ -79,7 +79,7 @@ const Editor = () => {
                 <ModalButton
                   modalTitle={'Return to home?'}
                   modalContent={
-                    "Your current changes will be discarded if you click 'OK'."
+                    'If you proceed without saving your PDF, any unsaved changes will be lost.'
                   }
                   onConfirm={onReturnHomeConfirmed}
                   startIcon={<ArrowBackIosNewIcon />}
