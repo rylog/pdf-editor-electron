@@ -13,6 +13,7 @@ const createWindow = () => {
     height: 667,
     icon: iconPath,
     webPreferences: {
+      devTools: false,
       nodeIntegration: true,
       contextIsolation: true,
       preload: path.join(__dirname, 'preload.js'),

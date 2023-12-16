@@ -20,6 +20,7 @@
 /build
 /dist
 /windows-store
+/resources
 
 # misc
 .DS_Store
