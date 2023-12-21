@@ -1,4 +1,3 @@
-import { rotateDegrees } from 'pdf-lib/cjs/api/operators';
 import { RenderingCancelledException } from 'pdfjs-dist';
 import { PDFPageProxy, RenderTask } from 'pdfjs-dist/types/src/display/api';
 import { CSSProperties, memo, useEffect, useRef } from 'react';
@@ -58,7 +57,7 @@ const useRenderPageOnCanvas = (
       };
 
       // Start a new rendering task
-      renderTask = pageProxy.render(renderCtx, rotateDegrees(rotation));
+      renderTask = pageProxy.render(renderCtx);
       try {
         await renderTask.promise;
       } catch (error) {

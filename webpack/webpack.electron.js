@@ -1,12 +1,8 @@
+const TerserPlugin = require('terser-webpack-plugin');
 const path = require('path');
-const CompressionPlugin = require('compression-webpack-plugin');
 const isProduction = process.env.NODE_ENV === 'production';
 
 module.exports = {
-	externals: {
-		// Specify the dependencies to be externalized
-		'pdf-lib': 'pdf-lib',
-	},
 	mode: isProduction ? 'production' : 'development',
 	devtool: isProduction ? false : 'source-map',
 	entry: {
@@ -36,6 +32,15 @@ module.exports = {
 				test: /\.css$/,
 				use: ['style-loader', 'css-loader'],
 			},
+		]
+	},
+	optimization: {
+		minimize: true,
+		minimizer: [
+		  // Use TerserPlugin for JavaScript minification
+		  new TerserPlugin({
+			parallel: true,
+		  })
 		]
 	},
 	output: {

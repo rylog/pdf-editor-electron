@@ -2,14 +2,12 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+
 const path = require('path');
 const isProduction = process.env.NODE_ENV === 'production';
 
 module.exports = {
-	externals: {
-		// Specify the dependencies to be externalized
-		'pdf-lib': 'pdf-lib',
-	},
 	mode: isProduction ? 'production' : 'development',
 	entry: {
 		renderer: path.join(__dirname, '../electron/renderer')
@@ -50,15 +48,8 @@ module.exports = {
 				test: /\.module\.css$/i,
 				include: /src/,
 				use: [
-					'style-loader',
-					{
-						loader: 'css-loader',
-						options: {
-							modules: {
-								localIdentName: '[name]__[local]___[hash:base64:5]'
-							}
-						}
-					}
+					MiniCssExtractPlugin.loader,
+					'css-loader',
 				]
 			},
 			{
@@ -77,7 +68,7 @@ module.exports = {
 		]
 	},
 	optimization: {
-		minimize: true,
+		minimize: isProduction,
 		minimizer: [
 		  // Use TerserPlugin for JavaScript minification
 		  new TerserPlugin({
@@ -107,5 +98,9 @@ module.exports = {
 				},
 			],
 		}),
+		new MiniCssExtractPlugin({
+            filename: '[name].css',
+            chunkFilename: '[id].css',
+        }),
 	]
 };

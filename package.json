@@ -10,7 +10,7 @@
     "lint": "eslint .",
     "start": "cross-env NODE_ENV=development yarn webpack-clean-build && yarn start-react-dev",
     "webpack-watch": "webpack --config webpack/webpack.config.js --watch",
-    "webpack-clean-build": "rimraf dist && webpack --config webpack/webpack.config.js",
+    "webpack-clean-build": "rimraf dist && rimraf build && webpack --config webpack/webpack.config.js",
     "webpack-dev-server": "webpack-dev-server --config webpack/webpack.react.js --mode=development --hot --client-logging none"
   },
   "keywords": [],
