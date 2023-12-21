@@ -1,7 +1,7 @@
 import { useTheme } from '@mui/material/styles';
 
 import { PDFPageReference } from '@/shared/models';
-import { Paper } from '@mui/material';
+import Paper from '@mui/material/Paper/Paper';
 import { useDrag } from '@namecheap/react-muuri';
 import { PropsWithChildren } from 'react';
 import Actions, { Action } from './Actions';

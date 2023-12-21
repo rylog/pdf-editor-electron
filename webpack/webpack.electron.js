@@ -1,7 +1,14 @@
 const path = require('path');
-const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const CompressionPlugin = require('compression-webpack-plugin');
+const isProduction = process.env.NODE_ENV === 'production';
+
 module.exports = {
-	mode: 'development',
+	externals: {
+		// Specify the dependencies to be externalized
+		'pdf-lib': 'pdf-lib',
+	},
+	mode: isProduction ? 'production' : 'development',
+	devtool: false,
 	entry: {
 		main: path.join(__dirname, '../electron/main.ts'),
 		preload: path.join(__dirname, '../electron/preload.ts'),
@@ -34,5 +41,6 @@ module.exports = {
 	output: {
 		path: path.resolve(__dirname, '../dist'),
 		filename: '[name].js'
-	},  
+	},
+	plugins:[]
 };

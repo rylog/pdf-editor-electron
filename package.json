@@ -1,6 +1,6 @@
 {
   "name": "fluid.pdf",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Pdf reordering and merging tool that supports rotation and deletion of pages",
   "main": "./dist/main.js",
   "scripts": {
@@ -21,14 +21,17 @@
     "@types/react": "^18.0.32",
     "@types/react-dom": "^18.0.11",
     "@types/react-pdf": "^6.2.0",
+    "@types/webpack-bundle-analyzer": "^4",
     "@types/yauzl": "^2.10.0",
     "@typescript-eslint/eslint-plugin": "5.13.0",
     "@typescript-eslint/parser": "5.0.0",
     "clean-webpack-plugin": "^4.0.0",
+    "compression-webpack-plugin": "^10.0.0",
     "concurrently": "^8.0.1",
     "copy-webpack-plugin": "^11.0.0",
     "cross-env": "^7.0.3",
     "css-loader": "^6.7.3",
+    "css-minimizer-webpack-plugin": "^5.0.1",
     "electron": "^23.2.1",
     "electron-builder": "^23.6.0",
     "eslint": "^8.37.0",
@@ -51,10 +54,12 @@
     "sass": "^1.60.0",
     "sass-loader": "^13.2.2",
     "style-loader": "^3.3.2",
+    "terser-webpack-plugin": "^5.3.9",
     "ts-loader": "^9.4.2",
-    "typescript": "^5.0.3",
+    "typescript": "^5.3.3",
     "wait-on": "^7.0.1",
     "webpack": "^5.77.0",
+    "webpack-bundle-analyzer": "^4.10.1",
     "webpack-cli": "^5.0.1",
     "webpack-dev-server": "^4.13.2"
   },
@@ -72,8 +77,7 @@
     "react-dropzone": "^14.2.3",
     "react-hot-toast": "^2.4.1",
     "reflect-metadata": "^0.1.13",
-    "tsyringe": "^4.8.0",
-    "web-animations-js": "^2.3.2"
+    "tsyringe": "^4.8.0"
   },
   "packageManager": "yarn@4.0.2",
   "overrides": {

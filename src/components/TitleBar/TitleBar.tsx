@@ -5,7 +5,9 @@ import CropSquareIcon from '@mui/icons-material/CropSquare';
 import DarkModeIcon from '@mui/icons-material/DarkMode';
 import LightModeIcon from '@mui/icons-material/LightMode';
 import RemoveRoundedIcon from '@mui/icons-material/RemoveRounded';
-import { Box, Button, IconButton } from '@mui/material';
+import Box from '@mui/material/Box/Box';
+import Button from '@mui/material/Button/Button';
+import IconButton from '@mui/material/IconButton/IconButton';
 import { useTheme } from '@mui/material/styles';
 import classes from './TitleBar.module.css';
 

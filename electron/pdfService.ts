@@ -1,7 +1,8 @@
 import { PDFFileData, PDFPageReference } from '@/shared/models';
 import { BrowserWindow, dialog } from 'electron';
 import * as fs from 'fs';
-import { PDFDocument, degrees } from 'pdf-lib';
+import PDFDocument from 'pdf-lib/cjs/api/PDFDocument';
+import { degrees } from 'pdf-lib/cjs/api/rotations';
 
 export class PdfService {
   private pdfDocumentMap = new Map<number, PDFDocument>();

@@ -1,6 +1,7 @@
 import iconImage from '@/assets/icons/fluid_256.png';
 import usePDFPages from '@/contexts/pdf/usePDFPages';
-import { CircularProgress, Paper } from '@mui/material';
+import CircularProgress from '@mui/material/CircularProgress/CircularProgress';
+import Paper from '@mui/material/Paper/Paper';
 import { ChangeEvent } from 'react';
 import Dropzone, { FileRejection } from 'react-dropzone';
 import toast from 'react-hot-toast';

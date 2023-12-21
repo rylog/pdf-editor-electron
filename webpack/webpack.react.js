@@ -1,13 +1,22 @@
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
-const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const TerserPlugin = require('terser-webpack-plugin');
+const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
+const CompressionPlugin = require('compression-webpack-plugin');
 const path = require('path');
+const isProduction = process.env.NODE_ENV === 'production';
 
 module.exports = {
-	mode: 'development',
-	entry: path.join(__dirname, '../electron/renderer'),
+	externals: {
+		// Specify the dependencies to be externalized
+		'pdf-lib': 'pdf-lib',
+	},
+	mode: isProduction ? 'production' : 'development',
+	entry: {
+		renderer: path.join(__dirname, '../electron/renderer')
+	},
 	target: 'web',
-	devtool: 'source-map',
+	devtool: isProduction ? 'source-map' : 'cheap-module-source-map',
 	devServer: {
 		static: {
 			directory: path.join(__dirname, '../dist'),
@@ -68,9 +77,20 @@ module.exports = {
 			},
 		]
 	},
+	optimization: {
+		minimize: true,
+		minimizer: [
+		  // Use TerserPlugin for JavaScript minification
+		  new TerserPlugin({
+			parallel: true,
+		  }),
+		  // Use OptimizeCSSAssetsPlugin for CSS minification
+		  new CssMinimizerPlugin({}),
+		],
+	  },
 	output: {
 		path: path.resolve(__dirname, '../dist'),
-		filename: 'renderer.js'
+		filename: '[name].js'
 	},
 	plugins: [
 		new HtmlWebpackPlugin({

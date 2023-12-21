@@ -2,7 +2,7 @@ import Button from '@mui/material/Button';
 import { ButtonProps, ButtonTypeMap } from '@mui/material/Button/Button';
 import { ChangeEvent, useRef } from 'react';
 
-import { ExtendButtonBase } from '@mui/material';
+import { ExtendButtonBase } from '@mui/material/ButtonBase/ButtonBase';
 import classes from './FileInputButton.module.css';
 
 interface FileInputButtonProps {

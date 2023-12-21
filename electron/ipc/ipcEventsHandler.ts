@@ -52,7 +52,6 @@ class IpcEventsHandler {
 
     //window events
     ipcMain.on(ipcEvents.SHOW, () => {
-      console.log('show');
       this.mainWindow.show();
     });
     ipcMain.on(ipcEvents.MINIMIZE, () => {

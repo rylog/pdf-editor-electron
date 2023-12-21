@@ -1,4 +1,6 @@
-import { ButtonGroup, IconButton, Paper } from '@mui/material';
+import ButtonGroup from '@mui/material/ButtonGroup/ButtonGroup';
+import IconButton from '@mui/material/IconButton/IconButton';
+import Paper from '@mui/material/Paper/Paper';
 
 export interface Action {
   icon: JSX.Element;

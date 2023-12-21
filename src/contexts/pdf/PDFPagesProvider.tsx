@@ -1,6 +1,6 @@
 import ipcEventsSender from '@/services/ipcEventsSender';
+import { initializePDFjs } from '@/services/pdfjsInitializer';
 import { PDFFileData } from '@/shared/models';
-import * as pdfjsLib from 'pdfjs-dist';
 import { InvalidPDFException } from 'pdfjs-dist';
 import { PDFPageProxy } from 'pdfjs-dist/types/src/display/api';
 import { FC, PropsWithChildren, useCallback, useRef, useState } from 'react';
@@ -11,8 +11,6 @@ const cMapUrl =
   process.env.NODE_ENV === 'production'
     ? './pdfjs-dist/cmaps/'
     : '../pdfjs-dist/cmaps/';
-
-pdfjsLib.GlobalWorkerOptions.workerSrc = './pdfjs-dist/pdf.worker.min.js';
 
 interface PDFPagesProviderProps {
   children: React.ReactNode;
@@ -45,6 +43,8 @@ const PDFPagesProvider: FC<PDFPagesProviderProps> = ({
       const getPagePromises = new Array<Promise<LoadedPDFPage>>();
       const filesData = new Array<PDFFileData>();
       const failures: { fileName: string; error: string }[] = [];
+
+      const pdfjsLib = await initializePDFjs();
 
       for (let i = 0; i < files.length; i++) {
         const file = files[i];

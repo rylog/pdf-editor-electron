@@ -1,13 +1,12 @@
 import useColorMode from '@/contexts/colorMode/useColorMode';
 import PDFPagesProvider from '@/contexts/pdf/PDFPagesProvider';
-import { Components, CssBaseline } from '@mui/material';
-import { ThemeProvider, createTheme } from '@mui/material/styles';
+import CssBaseline from '@mui/material/CssBaseline/CssBaseline';
+import { Components, ThemeProvider, createTheme } from '@mui/material/styles';
 import { TypographyOptions } from '@mui/material/styles/createTypography';
+import { lazy } from 'react';
 import { Toaster } from 'react-hot-toast';
 import { Route, MemoryRouter as Router, Routes } from 'react-router-dom';
 import TitleBar from '../components/TitleBar/TitleBar';
-import Editor from '../pages/Editor/Editor';
-import Home from '../pages/Home/Home';
 import './App.module.css';
 
 declare module '@mui/material/styles/createPalette' {
@@ -82,6 +81,9 @@ const themeLight = createTheme({
   },
   typography: typographyOptions,
 });
+
+const Editor = lazy(() => import('../pages/Editor/Editor'));
+const Home = lazy(() => import('../pages/Home/Home'));
 
 const themeDark = createTheme({
   components: componentOptions,

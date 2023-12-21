@@ -1,4 +1,4 @@
-import { rotateDegrees } from 'pdf-lib';
+import { rotateDegrees } from 'pdf-lib/cjs/api/operators';
 import { RenderingCancelledException } from 'pdfjs-dist';
 import { PDFPageProxy, RenderTask } from 'pdfjs-dist/types/src/display/api';
 import { CSSProperties, memo, useEffect, useRef } from 'react';

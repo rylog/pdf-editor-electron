@@ -3,7 +3,7 @@ import { Action } from '@/components/Tile/Actions';
 import usePDFPages from '@/contexts/pdf/usePDFPages';
 import DeleteIcon from '@mui/icons-material/Delete';
 import RotateRightTwoTone from '@mui/icons-material/RotateRightTwoTone';
-import { CircularProgress } from '@mui/material';
+import CircularProgress from '@mui/material/CircularProgress/CircularProgress';
 import { AutoScroller, MuuriComponent } from '@namecheap/react-muuri';
 import {
   DecoratedItem,
