@@ -8,7 +8,7 @@ module.exports = {
 		'pdf-lib': 'pdf-lib',
 	},
 	mode: isProduction ? 'production' : 'development',
-	devtool: false,
+	devtool: isProduction ? false : 'source-map',
 	entry: {
 		main: path.join(__dirname, '../electron/main.ts'),
 		preload: path.join(__dirname, '../electron/preload.ts'),

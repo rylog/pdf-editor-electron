@@ -2,7 +2,6 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
-const CompressionPlugin = require('compression-webpack-plugin');
 const path = require('path');
 const isProduction = process.env.NODE_ENV === 'production';
 
@@ -16,7 +15,7 @@ module.exports = {
 		renderer: path.join(__dirname, '../electron/renderer')
 	},
 	target: 'web',
-	devtool: isProduction ? 'source-map' : 'cheap-module-source-map',
+	devtool: isProduction ? false : 'source-map',
 	devServer: {
 		static: {
 			directory: path.join(__dirname, '../dist'),
